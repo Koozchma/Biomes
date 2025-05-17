@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const mapImage = new Image();
     // === Image path updated to your filename ===
-    mapImage.src = 'images/main_map_01.png'; // Assuming it's in an 'images' folder
+    mapImage.src = 'images/main_map.png'; // Assuming it's in an 'images' folder
 
     // === USER ACTION REQUIRED: Define your clickable regions ===
     // You MUST update these coordinates to match your "main_map_01.png" image.
@@ -32,37 +32,52 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             name: 'Desert', // Top-left area in the example map
             shape: 'rect',
-            coords: [30, 30, 250, 180], // EXAMPLE: Adjust x, y, width, height
+            coords: [30, 30, 450,300], // EXAMPLE: Adjust x, y, width, height
             targetUrl: 'desert.html',
             hoverColor: 'rgba(255, 193, 7, 0.4)' // Semi-transparent yellow
         },
         {
             name: 'Forest', // Top-right area in the example map
             shape: 'rect',
-            coords: [300, 20, 320, 250], // EXAMPLE: Adjust x, y, width, height
+            coords: [600, 50, 350, 400
+            ], // EXAMPLE: Adjust x, y, width, height
             targetUrl: 'forest.html',
             hoverColor: 'rgba(76, 175, 80, 0.4)' // Semi-transparent green
         },
         {
             name: 'Castle', // Bottom-left area in the example map
             shape: 'rect',
-            coords: [50, 300, 200, 180], // EXAMPLE: Adjust x, y, width, height
+            coords: [150, 700, 250, 200], // EXAMPLE: Adjust x, y, width, height
             targetUrl: 'castle.html',
             hoverColor: 'rgba(121, 85, 72, 0.4)' // Semi-transparent brown
         },
         {
             name: 'Mountains', // Bottom-right area in the example map
             shape: 'rect',
-            coords: [380, 340, 250, 150], // EXAMPLE: Adjust x, y, width, height
+            coords: [550, 600, 350, 250], // EXAMPLE: Adjust x, y, width, height
             targetUrl: 'mountains.html',
             hoverColor: 'rgba(158, 158, 158, 0.4)' // Semi-transparent gray
         },
         {
             name: 'Lake', // Center-left area with the boat in the example map
             shape: 'rect',
-            coords: [40, 220, 200, 100], // EXAMPLE: Adjust x, y, width, height
+            coords: [30, 500, 300, 200], // EXAMPLE: Adjust x, y, width, height
             targetUrl: 'lake.html',
             hoverColor: 'rgba(33, 150, 243, 0.4)' // Semi-transparent blue
+        },
+        {
+            name: 'DirtIsland', // Center-left area with the boat in the example map
+            shape: 'rect',
+            coords: [430, 500, 200, 200], // EXAMPLE: Adjust x, y, width, height
+            targetUrl: 'lake.html',
+            hoverColor: 'rgba(76, 243, 57, 0.4)' // Semi-transparent blue
+        },
+        {
+            name: 'ForestIsland', // Center-left area with the boat in the example map
+            shape: 'rect',
+            coords: [250, 400, 200, 150], // EXAMPLE: Adjust x, y, width, height
+            targetUrl: 'lake.html',
+            hoverColor: 'rgba(18, 61, 214, 0.4)' // Semi-transparent blue
         }
         // Add more regions as needed for other parts of your map.
     ];
