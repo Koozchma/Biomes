@@ -5,21 +5,78 @@ body {
     background-color: #f4f4f4;
 }
 
-.map-image-container {
-    display: inline-block; /* Helps with centering or if you want borders */
-    /* If your image is very large, you might want to constrain its width */
+.map-container {
+    position: relative; /* This is crucial for absolute positioning of hotspots */
+    display: inline-block; /* So the container wraps the image size */
+    /* If your image has a fixed size, set it here, e.g., width: 800px; height: 600px; */
+    /* If you want it responsive, ensure the image inside is responsive. */
     max-width: 100%;
-    /* width: 800px; /* Or a fixed width if you prefer */
-    /* border: 3px solid #333; */
 }
 
-#gameMapImage {
-    display: block; /* Removes extra space below the image */
-    max-width: 100%; /* Makes the image responsive within its container */
-    height: auto;   /* Maintain aspect ratio */
+.map-background {
+    display: block; /* Removes extra space if the container is inline-block */
+    width: 100%;    /* Makes the image fill the container */
+    height: auto;   /* Maintains aspect ratio */
 }
 
-/* Optional: Style for when an area is hovered (browser default is usually an outline) */
-area:hover {
+.hotspot {
+    position: absolute; /* Positioned relative to .map-container */
+    display: block;
+    /* For debugging, give hotspots a semi-transparent background */
+    /* background-color: rgba(255, 0, 0, 0.3); */
+    text-decoration: none; /* Remove underline from link */
+}
+
+.hotspot:hover {
+    /* Optional: visual feedback on hover */
+    /* background-color: rgba(0, 255, 0, 0.4); */
+    /* border: 1px solid yellow; */
     cursor: pointer;
+}
+
+/* For accessibility: hide text but make it available to screen readers */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/*
+  You MUST define the position and size for EACH hotspot.
+  Values can be in pixels (px) if your map has a fixed size,
+  or percentages (%) if you want the hotspots to scale with a responsive map.
+  Using percentages requires careful calculation based on the image's aspect ratio.
+
+  To get these values:
+  1. Open your image in an editor to get rough pixel values for top, left, width, height.
+  2. If using percentages: (pixel_value / image_dimension_in_pixels) * 100
+     Example: If desert top is 50px on an 800px tall image: (50 / 800) * 100 = 6.25%
+  3. Use browser developer tools (Inspect Element) to fine-tune the CSS.
+*/
+
+/* Example positions - REPLACE THESE WITH YOUR ACTUAL VALUES */
+#desert-spot {
+    top: 7%;     /* Example: Approx top-left area */
+    left: 5%;
+    width: 30%;  /* Example width */
+    height: 25%; /* Example height */
+}
+
+#forest-spot {
+    top: 8%;     /* Example: Approx top-right area */
+    left: 55%;
+    width: 38%;
+    height: 35%;
+}
+
+#castle-spot {
+    top: 60%;    /* Example: Approx bottom-left area */
+    left: 8%;
+    width: 25%;
+    height: 25%;
 }
