@@ -3,29 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Game Map - CSS Method</title>
+    <title>Interactive Canvas Map</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <h1>Explore the World (Canvas)!</h1>
+    <div class="canvas-container">
+        <canvas id="gameMapCanvas">
+            Your browser does not support the HTML5 canvas tag.
+        </canvas>
+    </div>
 
-    <h1>Explore the World! (CSS Method)</h1>
+    <p>Click on a region to explore!</p>
 
-    <div class="map-container">
-        <img src="images/game-map.jpg" alt="Game Map" class="map-background">
-
-        <a href="desert.html" class="hotspot" id="desert-spot" title="Visit the Desert">
-            <span class="hotspot-label visually-hidden">Desert</span>
-        </a>
-
-        <a href="forest.html" class="hotspot" id="forest-spot" title="Explore the Forest">
-            <span class="hotspot-label visually-hidden">Forest</span>
-        </a>
-
-        <a href="castle.html" class="hotspot" id="castle-spot" title="Enter the Castle">
-            <span class="hotspot-label visually-hidden">Castle</span>
-        </a>
-
-        </div>
-
-    <script src="js/main.js"></script> </body>
+    <script src="js/map-canvas.js"></script>
+</body>
 </html>
