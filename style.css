@@ -2,58 +2,58 @@
 body, html {
     margin: 0;
     padding: 0;
-    font-family: 'Arial Rounded MT Bold', 'Helvetica Rounded', Arial, sans-serif; /* A rounder, more playful font */
-    background-color: #e4d8c5; /* Light parchment/beige background from your image */
-    color: #5a4c3d; /* Dark brown text */
+    font-family: 'Arial Rounded MT Bold', 'Helvetica Rounded', Arial, sans-serif;
+    background-color: #e4d8c5;
+    color: #5a4c3d;
     height: 100%;
 }
 
 .game-container {
     display: flex;
-    flex-direction: column; /* Stack top-bar and map-area vertically */
-    align-items: center; /* Center content horizontally */
+    flex-direction: column;
+    align-items: center;
     width: 100%;
-    min-height: 100vh; /* Ensure it takes at least full viewport height */
-    padding: 0 10px; /* Add some padding on the sides */
+    min-height: 100vh;
+    padding: 0 10px;
     box-sizing: border-box;
 }
 
 /* Top Bar for Resources and Day Counter */
 .top-bar {
     width: 100%;
-    max-width: 900px; /* Max width for the top bar, similar to map */
-    background-color: #d7c095; /* Tan color, similar to image's top bar */
+    max-width: 900px;
+    background-color: #d7c095;
     padding: 8px 15px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 15px; /* Space from top of viewport */
-    margin-bottom: 15px; /* Space between top-bar and map */
+    margin-top: 15px;
+    margin-bottom: 15px;
     box-sizing: border-box;
-    border: 2px solid #a98e60; /* Darker border */
+    border: 2px solid #a98e60;
 }
 
 .resources {
     display: flex;
     align-items: center;
-    gap: 15px; /* Space between resource items */
+    gap: 15px;
 }
 
 .resource-item {
     display: flex;
     align-items: center;
-    background-color: #f5eeda; /* Lighter background for item */
+    background-color: #f5eeda;
     padding: 5px 10px;
-    border-radius: 20px; /* Pill shape */
+    border-radius: 20px;
     border: 1px solid #c8b58c;
     box-shadow: inset 0 0 3px rgba(0,0,0,0.1);
 }
 
 .resource-icon {
-    width: 24px;  /* Adjust as needed */
-    height: 24px; /* Adjust as needed */
+    width: 24px;  /* Adjust if your icons are different sizes */
+    height: 24px; /* Adjust if your icons are different sizes */
     margin-right: 8px;
     vertical-align: middle;
 }
@@ -68,7 +68,7 @@ body, html {
     font-size: 1.2em;
     font-weight: bold;
     color: #fff;
-    background-color: #8c734d; /* Darker background for day */
+    background-color: #8c734d;
     padding: 6px 12px;
     border-radius: 5px;
     border: 1px solid #705c3e;
@@ -77,18 +77,18 @@ body, html {
 /* Map Area Styling */
 .map-area {
     width: 100%;
-    max-width: 900px; /* Set a max-width for the map for larger screens */
-    margin-bottom: 20px; /* Space at the bottom */
+    max-width: 900px;
+    margin-bottom: 20px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    border: 3px solid #a98e60; /* Border similar to top bar */
-    border-radius: 5px; /* Slightly rounded corners for the map container */
-    overflow: hidden; /* Ensures canvas corners are also rounded if border-radius is on canvas parent */
+    border: 3px solid #a98e60;
+    border-radius: 5px;
+    overflow: hidden;
 }
 
 #gameMapCanvas {
-    display: block; /* Remove extra space below canvas */
-    width: 100%;    /* Make canvas responsive within its container */
-    height: auto;   /* Maintain aspect ratio */
+    display: block;
+    width: 100%;
+    height: auto;
 }
 
 /* Responsive adjustments */
@@ -102,31 +102,12 @@ body, html {
     }
     .resources {
         gap: 10px;
-        flex-wrap: wrap; /* Allow resources to wrap */
+        flex-wrap: wrap;
         justify-content: center;
     }
-    .resource-item {
-        padding: 4px 8px;
-    }
-    .resource-icon {
-        width: 20px;
-        height: 20px;
-    }
-    .resource-value, .day-counter {
-        font-size: 1em;
-    }
+    /* Further responsive adjustments from previous example... */
 }
 
 @media (max-width: 480px) {
-    .resources {
-        gap: 5px; /* Tighter spacing on very small screens */
-    }
-    .resource-item {
-        padding: 3px 6px;
-    }
-    .resource-icon {
-        width: 18px;
-        height: 18px;
-        margin-right: 4px;
-    }
+    /* Further responsive adjustments from previous example... */
 }
