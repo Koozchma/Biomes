@@ -3,18 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Canvas Map</title>
+    <title>Game Map & Resources</title>
     <link rel="stylesheet" href="style.css">
-</head>
+    </head>
 <body>
-    <h1>Explore the World (Canvas)!</h1>
-    <div class="canvas-container">
-        <canvas id="gameMapCanvas">
-            Your browser does not support the HTML5 canvas tag.
-        </canvas>
-    </div>
+    <div class="game-container">
+        <header class="top-bar">
+            <div class="resources">
+                <div class="resource-item">
+                    <img src="images/icon-coin.png" alt="Gold" class="resource-icon"> <span id="goldCount" class="resource-value">0</span>
+                </div>
+                <div class="resource-item">
+                    <img src="images/icon-leaf.png" alt="Leaves" class="resource-icon"> <span id="leafCount" class="resource-value">0</span>
+                </div>
+                <div class="resource-item">
+                    <img src="images/icon-acorn.png" alt="Acorns" class="resource-icon"> <span id="acornCount" class="resource-value">0</span>
+                </div>
+                <div class="resource-item">
+                    <img src="images/icon-rock.png" alt="Rocks" class="resource-icon"> <span id="rockCount" class="resource-value">0</span>
+                </div>
+                <div class="resource-item">
+                    <img src="images/icon-pail.png" alt="Pails" class="resource-icon"> <span id="pailCount" class="resource-value">0</span>
+                </div>
+            </div>
+            <div class="day-counter">
+                <span id="dayCount">Day 1</span>
+            </div>
+        </header>
 
-    <p>Click on a region to explore!</p>
+        <main class="map-area">
+            <canvas id="gameMapCanvas">
+                Your browser does not support the HTML5 canvas tag.
+            </canvas>
+        </main>
+    </div>
 
     <script src="js/map-canvas.js"></script>
 </body>
