@@ -1,0 +1,25 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    text-align: center;
+    background-color: #f4f4f4;
+}
+
+.map-image-container {
+    display: inline-block; /* Helps with centering or if you want borders */
+    /* If your image is very large, you might want to constrain its width */
+    max-width: 100%;
+    /* width: 800px; /* Or a fixed width if you prefer */
+    /* border: 3px solid #333; */
+}
+
+#gameMapImage {
+    display: block; /* Removes extra space below the image */
+    max-width: 100%; /* Makes the image responsive within its container */
+    height: auto;   /* Maintain aspect ratio */
+}
+
+/* Optional: Style for when an area is hovered (browser default is usually an outline) */
+area:hover {
+    cursor: pointer;
+}
