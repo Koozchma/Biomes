@@ -15,10 +15,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Get DOM elements for displaying resource counts and day count
-    const woodCountEl = document.getElementById('woodCount');   // For tree.png
-    const coinCountEl = document.getElementById('coinCount');   // For coin2.png
-    const fishCountEl = document.getElementById('fishCount');   // For fish.png
-    const stoneCountEl = document.getElementById('stoneCount'); // For rock.png
+    // Ensure these paths are correct in your HTML file:
+    // e.g., <img src="resources/tree.png" class="resource-icon">
+    const woodCountEl = document.getElementById('woodCount');   // For resources/tree.png
+    const coinCountEl = document.getElementById('coinCount');   // For resources/coin2.png
+    const fishCountEl = document.getElementById('fishCount');   // For resources/fish.png
+    const stoneCountEl = document.getElementById('stoneCount'); // For resources/rock.png
     const dayCountEl = document.getElementById('dayCount');
 
     // --- Game State Management (Resources and Day) ---
@@ -82,22 +84,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Canvas Map Drawing and Interaction ---
     const mapImage = new Image();
-    mapImage.src = 'images/main_map.png'; // Using path from user's provided code
+    // MODIFIED PATH: Assuming your HTML is in the root, and 'regions' is a subfolder.
+    // If 'map-canvas.js' is in 'js/' and HTML is in root, this path should be correct.
+    mapImage.src = 'regions/main_map_01.png'; // CHANGED from 'images/main_map.png'
 
     const regions = [
         {
             name: 'Desert',
             shape: 'rect',
             coords: [30, 30, 450, 300],
-            targetUrl: 'desert.html',
+            targetUrl: 'regions/desert.html', // CHANGED: Added 'regions/' prefix
             hoverColor: 'rgba(255, 193, 7, 0.4)',
-            rewards: { coin: 5 } // Added placeholder rewards
+            rewards: { coin: 5 }
         },
         {
             name: 'Forest',
             shape: 'rect',
-            coords: [600, 50, 350, 400], // Added missing comma
-            targetUrl: 'forest.html',
+            coords: [600, 50, 350, 400],
+            targetUrl: 'regions/forest.html', // CHANGED: Added 'regions/' prefix
             hoverColor: 'rgba(76, 175, 80, 0.4)',
             rewards: { wood: 15, fish: 1 }
         },
@@ -105,15 +109,14 @@ document.addEventListener('DOMContentLoaded', () => {
             name: 'Castle',
             shape: 'rect',
             coords: [150, 700, 250, 200],
-            targetUrl: 'castle.html',
+            targetUrl: 'regions/castle.html', // CHANGED: Added 'regions/' prefix
             hoverColor: 'rgba(121, 85, 72, 0.4)'
-            // No direct rewards from map click assumed
         },
         {
             name: 'Mountains',
             shape: 'rect',
             coords: [550, 600, 350, 250],
-            targetUrl: 'mountains.html',
+            targetUrl: 'regions/mountains.html', // CHANGED: Added 'regions/' prefix
             hoverColor: 'rgba(158, 158, 158, 0.4)',
             rewards: { stone: 20, coin: 2 }
         },
@@ -121,25 +124,27 @@ document.addEventListener('DOMContentLoaded', () => {
             name: 'Lake',
             shape: 'rect',
             coords: [30, 500, 300, 200],
-            targetUrl: 'lake.html',
+            targetUrl: 'regions/lake.html', // CHANGED: Added 'regions/' prefix (assuming lake.html is also in regions)
             hoverColor: 'rgba(33, 150, 243, 0.4)',
-            rewards: { fish: 3 } // Added rewards
+            rewards: { fish: 3 }
         },
         {
             name: 'DirtIsland',
             shape: 'rect',
             coords: [430, 500, 200, 200],
-            targetUrl: 'lake.html', // Assuming this also goes to lake or a specific island page
+            // Assuming 'lake.html' or a specific 'dirt_island.html' would also be in 'regions/'
+            targetUrl: 'regions/lake.html', // CHANGED: Added 'regions/' prefix
             hoverColor: 'rgba(76, 243, 57, 0.4)',
-            rewards: { stone: 2 } // Added placeholder rewards
+            rewards: { stone: 2 }
         },
         {
             name: 'ForestIsland',
             shape: 'rect',
             coords: [250, 400, 200, 150],
-            targetUrl: 'lake.html', // Assuming this also goes to lake or a specific island page
+            // Assuming 'lake.html' or a specific 'forest_island.html' would also be in 'regions/'
+            targetUrl: 'regions/lake.html', // CHANGED: Added 'regions/' prefix
             hoverColor: 'rgba(18, 61, 214, 0.4)',
-            rewards: { wood: 5 } // Added placeholder rewards
+            rewards: { wood: 5 }
         }
     ];
 
@@ -147,19 +152,18 @@ document.addEventListener('DOMContentLoaded', () => {
         canvas.width = mapImage.naturalWidth;
         canvas.height = mapImage.naturalHeight;
         loadGameState();
-        drawMapAndRegions(currentlyHoveredRegion); // Draw initial map state
+        drawMapAndRegions(currentlyHoveredRegion);
 
         canvas.addEventListener('click', handleClick);
         canvas.addEventListener('mousemove', handleMouseMove);
         canvas.addEventListener('mouseout', () => {
             currentlyHoveredRegion = null;
-            if (!clickFlashRegion) { // Don't clear flash if mouseout happens during flash
+            if (!clickFlashRegion) {
                 drawMapAndRegions(null);
             }
             canvas.style.cursor = 'default';
         });
 
-        // Start automatic day advancement: 1 day every minute (60000 ms)
         setInterval(advanceDay, 60000);
         console.log("Automatic day advancement started (1 day per minute).");
     };
@@ -178,22 +182,15 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.fillText(`Attempted path: ${mapImage.src}`, centerX, centerY + 20);
     };
 
-    /**
-     * Clears the canvas and redraws the map image, hover effects, and click flash.
-     * @param {Object|null} regionToHover - The region object to show normal hover for, or null.
-     */
     function drawMapAndRegions(regionToHover = null) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(mapImage, 0, 0, canvas.width, canvas.height);
 
-        // Draw click flash effect if active
         if (clickFlashRegion) {
             ctx.fillStyle = CLICK_FLASH_COLOR;
             const [x, y, w, h] = clickFlashRegion.coords;
             ctx.fillRect(x, y, w, h);
         }
-        // Draw normal hover effect if a region is hovered and not currently being flashed
-        // or if the flashed region is also the one being hovered (after flash timeout clears clickFlashRegion)
         else if (regionToHover) {
             ctx.fillStyle = regionToHover.hoverColor || 'rgba(0, 0, 0, 0.2)';
             const [x, y, w, h] = regionToHover.coords;
@@ -227,20 +224,17 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isPointInRegion(mousePos, region)) {
                 console.log(`Clicked on ${region.name}.`);
 
-                // Clear any previous flash timeout and set up new flash
                 if (clickFlashTimeoutId) {
                     clearTimeout(clickFlashTimeoutId);
                 }
                 clickFlashRegion = region;
-                drawMapAndRegions(currentlyHoveredRegion); // Redraw immediately to show flash
+                drawMapAndRegions(currentlyHoveredRegion);
 
                 clickFlashTimeoutId = setTimeout(() => {
-                    clickFlashRegion = null; // Clear the flash state
-                    // Redraw with current hover state (if any) after flash duration
+                    clickFlashRegion = null;
                     drawMapAndRegions(currentlyHoveredRegion);
                 }, CLICK_FLASH_DURATION);
 
-                // Process rewards
                 let resourcesChanged = false;
                 if (region.rewards) {
                     for (const resourceType in region.rewards) {
@@ -256,12 +250,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     saveGameState();
                 }
 
-                // Navigate after flash and rewards
                 if (region.targetUrl) {
-                    // Delay navigation slightly to allow flash to be visible
                     setTimeout(() => {
                         window.location.href = region.targetUrl;
-                    }, CLICK_FLASH_DURATION / 2); // Navigate halfway through flash or adjust as needed
+                    }, CLICK_FLASH_DURATION / 2);
                 }
                 return;
             }
@@ -285,8 +277,6 @@ document.addEventListener('DOMContentLoaded', () => {
             canvas.style.cursor = 'pointer';
             if (foundRegionToHover !== currentlyHoveredRegion) {
                 currentlyHoveredRegion = foundRegionToHover;
-                // Only redraw if not in the middle of a click flash for a *different* region
-                // or if the new hover is the region being flashed (which is fine)
                 if (!clickFlashRegion || clickFlashRegion === currentlyHoveredRegion) {
                     drawMapAndRegions(currentlyHoveredRegion);
                 }
@@ -295,7 +285,6 @@ document.addEventListener('DOMContentLoaded', () => {
             canvas.style.cursor = 'default';
             if (currentlyHoveredRegion !== null) {
                 currentlyHoveredRegion = null;
-                // Only redraw if not in the middle of a click flash
                 if (!clickFlashRegion) {
                     drawMapAndRegions(null);
                 }
