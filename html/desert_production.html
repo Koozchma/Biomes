@@ -112,9 +112,9 @@
             padding: 20px;
             border: 4px solid #b8860b; 
             width: 95%;
-            max-width: 850px; /* Slightly wider for buy max button */
+            max-width: 850px; 
             height: 90vh; 
-            max-height: 750px; /* Slightly taller */
+            max-height: 750px; 
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             color: #3a2b1a; 
@@ -129,7 +129,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(244, 233, 192, 0.8); /* More opaque for better readability */
+            background-color: rgba(244, 233, 192, 0.8); 
             border-radius: 16px; 
             z-index: 1; 
         }
@@ -141,7 +141,7 @@
 
         .menu-header {
             text-align: center;
-            padding-bottom: 10px; /* Reduced padding */
+            padding-bottom: 10px; 
             border-bottom: 2px dashed #b8860b;
             position: relative; 
         }
@@ -149,44 +149,28 @@
         .menu-header h2 {
             color: #8B4513; 
             margin-top: 0;
-            margin-bottom: 5px; /* Reduced margin */
-            font-size: 1.8em; /* Slightly smaller */
+            margin-bottom: 5px; 
+            font-size: 1.8em; 
             text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
         }
         .player-gold-display, .total-gold-production {
-            font-size: 1.0em; /* Slightly smaller */
+            font-size: 1.0em; 
             font-weight: bold;
-            padding: 6px 10px; /* Adjusted padding */
+            padding: 6px 10px; 
             background-color: rgba(255, 215, 0, 0.3); 
             border-radius: 5px;
             display: inline-block; 
-            margin: 3px 8px; /* Adjusted margin */
+            margin: 3px 8px; 
         }
         .player-gold-display span, .total-gold-production span { color: #DAA520; }
-
-        #buyMaxBtn {
-            padding: 8px 15px;
-            font-size: 0.9em;
-            background-color: #FF8C00; /* DarkOrange */
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 5px;
-            margin-bottom: 10px;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        #buyMaxBtn:hover { background-color: #cc7000; }
 
 
         .close-gold-menu-button {
             position: absolute;
-            top: 8px; /* Adjusted */
-            right: 12px; /* Adjusted */
+            top: 8px; 
+            right: 12px; 
             color: #8B4513;
-            font-size: 32px; /* Slightly smaller */
+            font-size: 32px; 
             font-weight: bold;
             cursor: pointer;
             transition: color 0.2s;
@@ -202,15 +186,15 @@
 
         .buildings-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); /* Adjusted minmax for smaller cards */
-            gap: 15px; /* Adjusted gap */
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); 
+            gap: 15px; 
         }
 
         .building-card {
             background-color: rgba(255, 253, 240, 0.92); 
             border: 2px solid #b8860b; 
             border-radius: 10px;
-            padding: 12px; /* Adjusted padding */
+            padding: 12px; 
             text-align: center;
             box-shadow: 0 3px 7px rgba(0,0,0,0.2);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -219,17 +203,17 @@
             justify-content: space-between; 
         }
         .building-card:hover {
-            transform: translateY(-4px); /* Slightly less lift */
+            transform: translateY(-4px); 
             box-shadow: 0 5px 10px rgba(0,0,0,0.25);
         }
         .building-card.locked {
-            opacity: 0.65; /* Slightly more opaque when locked */
+            opacity: 0.65; 
             background-color: rgba(210, 210, 210, 0.75); 
         }
 
 
         .building-icon {
-            font-size: 2.2em; /* Adjusted */
+            font-size: 2.2em; 
             margin-bottom: 8px;
             color: #8B4513;
             height: 35px; 
@@ -240,35 +224,48 @@
             margin-top: 0;
             margin-bottom: 6px;
             color: #800000; 
-            font-size: 1.05em; /* Adjusted */
+            font-size: 1.05em; 
         }
         .building-card p {
-            font-size: 0.8em; /* Adjusted */
+            font-size: 0.8em; 
             margin-bottom: 5px;
             line-height: 1.3;
         }
         .building-card .cost, .building-card .production, .building-card .level {
             font-weight: bold;
-            font-size: 0.85em; /* Adjusted */
+            font-size: 0.85em; 
         }
         .building-card .cost span { color: #B8860B; } 
         .building-card .production span { color: #228B22; } 
         .building-card .level span { color: #483D8B; } 
 
 
+        .action-buttons-container {
+            display: flex;
+            gap: 5px; /* Space between buy and max buttons */
+            margin-top: 10px;
+        }
+
         .action-button { 
-            padding: 8px 15px; /* Adjusted */
-            font-size: 0.9em; /* Adjusted */
+            padding: 8px 10px; /* Adjusted padding */
+            font-size: 0.85em; /* Adjusted font size */
             font-weight: bold;
             color: white;
             border: none;
             border-radius: 6px;
             cursor: pointer;
             transition: background-color 0.2s, opacity 0.2s;
-            margin-top: 10px; /* Adjusted */
-            width: 100%; 
+            /* width: 100%; Replaced by flex-grow */
             box-sizing: border-box;
+            flex-grow: 1; /* Allow buttons to share space */
         }
+        .action-button.buy-max {
+            flex-grow: 0.5; /* Max button takes less space */
+            background-color: #FF8C00; /* DarkOrange for Max */
+        }
+        .action-button.buy-max:hover { background-color: #cc7000; }
+
+
         .action-button.unlock { background-color: #CD853F; }
         .action-button.unlock:hover { background-color: #A0522D; }
         .action-button.upgrade { background-color: #5cb85c; }
@@ -292,36 +289,26 @@
         }
         .back-to-map-link:hover { background-color: #705c3e; }
 
-        /* Gold income animation */
         .gold-income-indicator {
             position: absolute;
-            /* Position near the player gold display */
-            top: 60px; /* Adjust based on your header layout */
-            left: 35%; /* Adjust based on your header layout */
+            top: 60px; 
+            left: 35%; 
             transform: translateX(-50%);
-            font-size: 1.2em; /* Make it a bit larger */
+            font-size: 1.2em; 
             font-weight: bold;
-            color: #FFD700; /* Brighter Gold color */
+            color: #FFD700; 
             text-shadow: 0 0 5px black, 0 0 10px gold;
             padding: 5px 10px;
             opacity: 0;
             animation: floatAndFade 1s ease-out forwards;
             pointer-events: none;
-            z-index: 1001; /* Above other modal content */
+            z-index: 1001; 
         }
 
         @keyframes floatAndFade {
-            0% {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0) scale(0.8);
-            }
-            50% {
-                transform: translateX(-50%) translateY(-20px) scale(1.1);
-            }
-            100% {
-                opacity: 0;
-                transform: translateX(-50%) translateY(-40px) scale(0.7);
-            }
+            0% { opacity: 1; transform: translateX(-50%) translateY(0) scale(0.8); }
+            50% { transform: translateX(-50%) translateY(-20px) scale(1.1); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(-40px) scale(0.7); }
         }
 
     </style>
@@ -345,8 +332,7 @@
                 <h2>Pyramid Gold Works</h2>
                 <div class="player-gold-display">Player Gold: <span id="playerGoldValue">0</span></div>
                 <div class="total-gold-production">Total Gold/sec: <span id="totalGoldProductionValue">0</span></div>
-                <button id="buyMaxBtn">Unlock Next Affordable</button>
-            </div>
+                </div>
             <div class="menu-body">
                 <div class="buildings-grid" id="buildingsGridContainer">
                     </div>
@@ -363,7 +349,7 @@
             const totalGoldProductionValueEl = document.getElementById('totalGoldProductionValue');
             const playerGoldValueEl = document.getElementById('playerGoldValue');
             const menuHeaderEl = document.querySelector('.menu-header');
-            const buyMaxBtn = document.getElementById('buyMaxBtn');
+            // const buyMaxBtn = document.getElementById('buyMaxBtn'); // Removed
 
             const buildingIconMap = {
                 mine_shaft: '⛏️', sluice_box: '🌊', ore_cart_rail: '🚂', stamping_mill: '⚙️',
@@ -372,35 +358,34 @@
             };
             
             const buildingTypes = [
-                // { id, name, baseCost, baseProduction, upgradeCostFactor, iconKey }
-                { id: 'mine_shaft', name: "Prospector's Shaft", baseCost: 50, baseProduction: 1, upgradeCostFactor: 0.7, iconKey: 'mine_shaft' },
-                { id: 'sluice_box', name: "Desert Sluice Box", baseCost: 250, baseProduction: 6, upgradeCostFactor: 0.75, iconKey: 'sluice_box' },
-                { id: 'ore_cart_rail', name: "Ore Cart Railway", baseCost: 1200, baseProduction: 11, upgradeCostFactor: 0.8, iconKey: 'ore_cart_rail' },
-                { id: 'stamping_mill', name: "Gold Stamping Mill", baseCost: 5500, baseProduction: 16, upgradeCostFactor: 0.85, iconKey: 'stamping_mill' },
-                { id: 'refinery', name: "Small Refinery", baseCost: 25000, baseProduction: 21, upgradeCostFactor: 0.9, iconKey: 'refinery' },
-                { id: 'deep_mine', name: "Deep Vein Mine", baseCost: 110000, baseProduction: 26, upgradeCostFactor: 0.95, iconKey: 'deep_mine' },
-                { id: 'alchemists_lab', name: "Alchemist's Lab", baseCost: 500000, baseProduction: 31, upgradeCostFactor: 1.0, iconKey: 'alchemists_lab' },
-                { id: 'treasury_vault', name: "Treasury Vault", baseCost: 2200000, baseProduction: 36, upgradeCostFactor: 1.05, iconKey: 'treasury_vault' },
-                { id: 'gold_golem_foundry', name: "Gold Golem Foundry", baseCost: 10000000, baseProduction: 41, upgradeCostFactor: 1.1, iconKey: 'gold_golem_foundry' },
-                { id: 'philosophers_stone', name: "Philosopher's Stone Chamber", baseCost: 45000000, baseProduction: 46, upgradeCostFactor: 1.15, iconKey: 'philosophers_stone' }
+                // { id, name, baseCost (for unlock), baseProduction, upgradeCostFactor (for upgrade cost per level), iconKey }
+                // Production sequence: 1, 6, 11, 16, 21, 26, 31, 36, 41, 46
+                { id: 'mine_shaft', name: "Prospector's Shaft", baseCost: 50, baseProduction: 1, upgradeCostFactor: 0.5, iconKey: 'mine_shaft' },
+                { id: 'sluice_box', name: "Desert Sluice Box", baseCost: 300, baseProduction: 6, upgradeCostFactor: 0.55, iconKey: 'sluice_box' },
+                { id: 'ore_cart_rail', name: "Ore Cart Railway", baseCost: 1500, baseProduction: 11, upgradeCostFactor: 0.6, iconKey: 'ore_cart_rail' },
+                { id: 'stamping_mill', name: "Gold Stamping Mill", baseCost: 7000, baseProduction: 16, upgradeCostFactor: 0.65, iconKey: 'stamping_mill' },
+                { id: 'refinery', name: "Small Refinery", baseCost: 30000, baseProduction: 21, upgradeCostFactor: 0.7, iconKey: 'refinery' },
+                { id: 'deep_mine', name: "Deep Vein Mine", baseCost: 120000, baseProduction: 26, upgradeCostFactor: 0.75, iconKey: 'deep_mine' },
+                { id: 'alchemists_lab', name: "Alchemist's Lab", baseCost: 500000, baseProduction: 31, upgradeCostFactor: 0.8, iconKey: 'alchemists_lab' },
+                { id: 'treasury_vault', name: "Treasury Vault", baseCost: 2000000, baseProduction: 36, upgradeCostFactor: 0.85, iconKey: 'treasury_vault' },
+                { id: 'gold_golem_foundry', name: "Gold Golem Foundry", baseCost: 8000000, baseProduction: 41, upgradeCostFactor: 0.9, iconKey: 'gold_golem_foundry' },
+                { id: 'philosophers_stone', name: "Philosopher's Stone Chamber", baseCost: 35000000, baseProduction: 46, upgradeCostFactor: 0.95, iconKey: 'philosophers_stone' }
             ];
 
-            let buildingsState = JSON.parse(localStorage.getItem('pyramidBuildingsState_v4')) || 
+            let buildingsState = JSON.parse(localStorage.getItem('pyramidBuildingsState_v5')) || 
                                  buildingTypes.map(bt => ({ 
                                      ...bt, 
                                      unlocked: false, 
                                      level: 0, 
-                                     currentUnlockCost: bt.baseCost, // Static unlock cost
-                                     currentUpgradeCost: bt.baseCost * (1) * bt.upgradeCostFactor, // Cost for level 1 to 2
                                      currentProduction: 0 
                                  }));
             
-            let currentGold = parseInt(localStorage.getItem('playerGold_v3')) || 200; 
+            let currentGold = parseInt(localStorage.getItem('playerGold_v4')) || 200; 
             let gameLoopInterval = null;
 
             function saveState() {
-                localStorage.setItem('pyramidBuildingsState_v4', JSON.stringify(buildingsState));
-                localStorage.setItem('playerGold_v3', currentGold.toString());
+                localStorage.setItem('pyramidBuildingsState_v5', JSON.stringify(buildingsState));
+                localStorage.setItem('playerGold_v4', currentGold.toString());
             }
 
             function updateGoldDisplay() {
@@ -421,7 +406,7 @@
                 menuHeaderEl.appendChild(incomeText);
                 setTimeout(() => {
                     incomeText.remove();
-                }, 950); // Should be slightly less than animation duration
+                }, 950); 
             }
 
             function gameTick() {
@@ -430,8 +415,13 @@
                     currentGold += goldEarnedThisSecond;
                     updateGoldDisplay();
                     showGoldIncomeAnimation(goldEarnedThisSecond);
-                    // No need to save state every tick, save on purchase/upgrade
                 }
+            }
+            
+            function getUpgradeCost(building) {
+                if (!building.unlocked) return building.baseCost; // Unlock cost
+                // Static cost for the next level upgrade
+                return Math.floor(building.baseCost * (building.level + 1) * building.upgradeCostFactor);
             }
 
             function renderBuildings() {
@@ -454,29 +444,46 @@
                         card.classList.add('unlocked');
                     }
 
-                    let costToShow = building.unlocked ? building.currentUpgradeCost : building.currentUnlockCost;
+                    let costToShow = getUpgradeCost(building);
 
                     card.innerHTML = `
                         <div class="building-icon">${buildingIconMap[building.iconKey] || '🏛️'}</div>
                         <h3>${building.name}</h3>
                         ${building.unlocked ? `<p class="level">Level: <span>${building.level}</span></p>` : '<p class="description">Unlocks gold extraction.</p>'}
                         <p class="production">Produces: <span>${building.currentProduction.toLocaleString()}</span> Gold/sec</p>
-                        <p class="cost">${building.unlocked ? 'Upgrade Cost' : 'Unlock Cost'}: <span>${costToShow.toLocaleString()}</span> Gold</p>
-                        <button class="action-button ${building.unlocked ? 'upgrade' : 'unlock'}" data-index="${index}">
-                            ${building.unlocked ? `Upgrade to Lvl ${building.level + 1}` : 'Unlock Building'}
-                        </button>
+                        <p class="cost">${building.unlocked ? 'Next Upgrade Cost' : 'Unlock Cost'}: <span>${costToShow.toLocaleString()}</span> Gold</p>
+                        <div class="action-buttons-container">
+                            <button class="action-button ${building.unlocked ? 'upgrade' : 'unlock'}" data-index="${index}" data-action="buy">
+                                ${building.unlocked ? `Upgrade to Lvl ${building.level + 1}` : 'Unlock Building'}
+                            </button>
+                            ${building.unlocked ? `<button class="action-button buy-max" data-index="${index}" data-action="max">Max</button>` : ''}
+                        </div>
                     `;
                     
-                    const actionButton = card.querySelector('.action-button');
+                    const actionButton = card.querySelector('.action-button[data-action="buy"]');
+                    const maxButton = card.querySelector('.action-button[data-action="max"]');
+                    
                     let canAfford = currentGold >= costToShow;
 
                     if (!isSequentiallyUnlockable && !building.unlocked) {
                         actionButton.disabled = true;
                         actionButton.title = "Unlock previous building first.";
-                    } else if (!canAfford) {
+                        if(maxButton) maxButton.style.display = 'none'; // Hide max if not unlockable by sequence
+                    } else if (!canAfford && !building.unlocked) { // Can't afford unlock
                          actionButton.disabled = true;
-                         actionButton.title = `Not enough gold. Need ${costToShow.toLocaleString()}.`;
+                         actionButton.title = `Not enough gold to unlock. Need ${costToShow.toLocaleString()}.`;
+                         if(maxButton) maxButton.style.display = 'none';
+                    } else if (!canAfford && building.unlocked) { // Can't afford next single upgrade
+                         actionButton.disabled = true;
+                         actionButton.title = `Not enough gold for next upgrade. Need ${costToShow.toLocaleString()}.`;
+                         if(maxButton) maxButton.disabled = true; // Still show max, but disable if can't afford even one
                     }
+
+
+                    if (maxButton && !building.unlocked) { // Should not happen due to template literal, but defensive
+                        maxButton.style.display = 'none';
+                    }
+
 
                     buildingsGridContainer.appendChild(card);
                     if (!building.unlocked) {
@@ -486,27 +493,46 @@
                 addBuildingActionListeners();
             }
 
-            function handlePurchase(index) {
+            function handlePurchase(index, buyMax = false) {
                 const building = buildingsState[index];
-                const isUpgrade = building.unlocked;
-                const cost = isUpgrade ? building.currentUpgradeCost : building.currentUnlockCost;
-
-                if (currentGold >= cost) {
-                    currentGold -= cost;
-                    building.level++;
-                    if (!isUpgrade) { 
-                        building.unlocked = true;
+                
+                if (buyMax && !building.unlocked) {
+                    // "Max" on a locked building doesn't make sense for multiple levels, just unlock if affordable.
+                    // Or, we can interpret "Max" for a locked building as "Unlock if affordable".
+                    // For simplicity, "Max" button is only shown for unlocked buildings currently.
+                    // If it were shown, we'd just try to unlock it:
+                    // if (currentGold >= building.baseCost) {
+                    //     currentGold -= building.baseCost;
+                    //     building.unlocked = true;
+                    //     building.level = 1;
+                    //     building.currentProduction = building.baseProduction * building.level;
+                    // } else { return; } // Can't even unlock
+                } else if (buyMax && building.unlocked) {
+                    let levelsBought = 0;
+                    let costForNextLevel = getUpgradeCost(building);
+                    while (currentGold >= costForNextLevel) {
+                        currentGold -= costForNextLevel;
+                        building.level++;
+                        building.currentProduction = building.baseProduction * building.level;
+                        levelsBought++;
+                        costForNextLevel = getUpgradeCost(building); // Get cost for the *new* next level
+                        if (levelsBought > 100) break; // Safety break
                     }
-                    // Production is baseProduction * level
-                    building.currentProduction = building.baseProduction * building.level;
-                    // Update cost for the NEXT upgrade
-                    building.currentUpgradeCost = Math.floor(building.baseCost * (building.level +1) * building.upgradeCostFactor);
-                    
-                    saveState();
-                    renderBuildings();
-                } else {
-                    alert(`Not enough gold.`); // Should be prevented by disabled button
+                } else { // Single purchase (unlock or upgrade)
+                    const cost = building.unlocked ? getUpgradeCost(building) : building.baseCost;
+                    if (currentGold >= cost) {
+                        currentGold -= cost;
+                        building.level++;
+                        if (!building.unlocked) { 
+                            building.unlocked = true;
+                        }
+                        building.currentProduction = building.baseProduction * building.level;
+                    } else {
+                        return; // Should be prevented by disabled button
+                    }
                 }
+                saveState();
+                renderBuildings();
             }
             
             function addBuildingActionListeners() {
@@ -517,47 +543,27 @@
                     button.addEventListener('click', (e) => {
                         if (e.target.disabled) return;
                         const index = parseInt(e.target.dataset.index);
-                        handlePurchase(index);
+                        const action = e.target.dataset.action;
+                        if (action === "buy") {
+                            handlePurchase(index, false);
+                        } else if (action === "max") {
+                            handlePurchase(index, true);
+                        }
                     });
                 });
             }
 
-            function unlockNextAffordable() {
-                let purchasedSomething = false;
-                let previousBuildingUnlockedForLoop = true;
-                for (let i = 0; i < buildingsState.length; i++) {
-                    const building = buildingsState[i];
-                    if (!building.unlocked && previousBuildingUnlockedForLoop && currentGold >= building.currentUnlockCost) {
-                        handlePurchase(i); // This will deduct gold, update state, and re-render
-                        purchasedSomething = true;
-                        // After purchase, re-check gold for next iteration, handlePurchase updated currentGold
-                    }
-                    if (!building.unlocked) { // If this building is still locked (or was just unlocked but we check for next)
-                        previousBuildingUnlockedForLoop = false; // Stop chain for this "buy max" attempt
-                    }
-                }
-                if (!purchasedSomething) {
-                    alert("No more buildings can be unlocked with current gold or sequence.");
-                }
-                // renderBuildings(); // handlePurchase already calls renderBuildings
-            }
-
-            if (buyMaxBtn) {
-                buyMaxBtn.addEventListener('click', unlockNextAffordable);
-            }
-
+            // Removed unlockNextAffordable function and its button listener
 
             if (startProductionPageBtn && goldProductionMenu && closeGoldMenuBtn) {
                 startProductionPageBtn.addEventListener('click', () => {
-                    currentGold = parseInt(localStorage.getItem('playerGold_v3')) || 200; 
-                    const storedBuildingState = localStorage.getItem('pyramidBuildingsState_v4');
+                    currentGold = parseInt(localStorage.getItem('playerGold_v4')) || 200; 
+                    const storedBuildingState = localStorage.getItem('pyramidBuildingsState_v5');
                     if (storedBuildingState) {
                         buildingsState = JSON.parse(storedBuildingState);
                     } else { 
                          buildingsState = buildingTypes.map(bt => ({ 
                              ...bt, unlocked: false, level: 0, 
-                             currentUnlockCost: bt.baseCost, 
-                             currentUpgradeCost: Math.floor(bt.baseCost * (1) * bt.upgradeCostFactor), // Cost for Lvl 1 to Lvl 2
                              currentProduction: 0 
                             }));
                          saveState(); 
@@ -577,7 +583,7 @@
                         clearInterval(gameLoopInterval);
                         gameLoopInterval = null;
                     }
-                    saveState(); // Save state when closing menu
+                    saveState(); 
                 };
 
                 closeGoldMenuBtn.addEventListener('click', closeMenuActions);
