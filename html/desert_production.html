@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desert Pyramid</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial Rounded MT Bold', 'Helvetica Rounded', Arial, sans-serif;
+            background-color: #e4d8c5; /* Sandy beige background, matching main page */
+            color: #5a4c3d;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .desert-container {
+            position: relative; /* For absolute positioning of button and animation */
+            max-width: 800px; /* Adjust as needed */
+            width: 90%;
+            background-color: #fff; /* Optional background for the container */
+            border: 3px solid #a98e60;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+            padding: 15px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .desert-image-wrapper {
+            position: relative; /* For positioning elements over the image */
+            width: 100%;
+            max-width: 600px; /* Or the natural width of your desert.png */
+            margin: 0 auto; /* Center the image wrapper */
+        }
+
+        .desert-image-wrapper img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        /* Red Circle Animation at the Pyramid */
+        .pyramid-animation-circle {
+            position: absolute;
+            /* Estimated position for the pyramid center based on image_e70268.jpg */
+            /* Top-left of pyramid base is roughly 10% from left, 35% from top */
+            /* Pyramid peak is roughly 25% from left, 15% from top */
+            /* Let's center it on the pyramid's visual mass */
+            left: 25%; /* Adjust this based on your desert.png */
+            top: 30%;  /* Adjust this based on your desert.png */
+            width: 40px; /* Size of the circle */
+            height: 40px;
+            border: 3px solid red;
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(1); /* Center it and prepare for scaling */
+            opacity: 0.7;
+            animation: pulse 2s infinite ease-in-out;
+            pointer-events: none; /* So it doesn't interfere with the button */
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 0.5;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 0.5;
+            }
+        }
+
+        /* Start Button on the Pyramid */
+        .start-production-button {
+            position: absolute;
+            /* Position it over the pyramid. Adjust these values precisely. */
+            left: 25%; /* Center of pyramid's width (approx) */
+            top: 35%;  /* Slightly lower on the pyramid (approx) */
+            transform: translate(-50%, -50%); /* Center the button on its coordinates */
+            padding: 12px 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: white;
+            background-color: #4CAF50; /* Green */
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            z-index: 10; /* Ensure it's above the animation circle if they overlap */
+        }
+
+        .start-production-button:hover {
+            background-color: #45a049;
+        }
+        .start-production-button:active {
+            transform: translate(-50%, -50%) scale(0.95);
+        }
+
+        /* Production Screen Modal */
+        .production-modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 100; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+            justify-content: center; /* For flex centering */
+            align-items: center; /* For flex centering */
+        }
+
+        .production-modal-content {
+            background-color: #fefefe;
+            margin: auto; /* Used with flex, ensures it's centered */
+            padding: 30px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            text-align: center;
+            position: relative; /* For positioning the close button */
+        }
+
+        .production-modal-content h2 {
+            color: #5a4c3d;
+            margin-top: 0;
+        }
+
+        .close-modal-button {
+            color: #aaa;
+            /* float: right; Removed for absolute positioning */
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+
+        .close-modal-button:hover,
+        .close-modal-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .back-to-map-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #8c734d;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+        .back-to-map-link:hover {
+            background-color: #705c3e;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="desert-container">
+        <h1>Pyramid of the Ancients</h1>
+        <div class="desert-image-wrapper">
+            <img src="../images/regions/desert.png" alt="Desert Scene with Pyramid"
+                 onerror="this.onerror=null; this.src='https://placehold.co/600x400/F4A460/FFFFFF?text=Desert+Image+Missing'; this.alt='Desert image missing';">
+            <div class="pyramid-animation-circle"></div>
+            <button id="startProductionBtn" class="start-production-button">Start Production</button>
+        </div>
+
+        <a href="../index.html" class="back-to-map-link">Back to World Map</a>
+    </div>
+
+    <div id="productionScreenModal" class="production-modal">
+        <div class="production-modal-content">
+            <span class="close-modal-button" id="closeModalBtn">&times;</span>
+            <h2>Pyramid Production</h2>
+            <p>Resources are now being generated from the pyramid!</p>
+            <p>You are producing: <strong>Ancient Artifacts</strong></p>
+            <p id="productionDetails">Rate: 1 Artifact per cycle.</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const startButton = document.getElementById('startProductionBtn');
+            const productionModal = document.getElementById('productionScreenModal');
+            const closeModalButton = document.getElementById('closeModalBtn');
+
+            if(startButton && productionModal && closeModalButton) {
+                // Show the production modal when the start button is clicked
+                startButton.addEventListener('click', () => {
+                    productionModal.style.display = 'flex'; // Use flex to enable centering
+                });
+
+                // Hide the modal when the close button is clicked
+                closeModalButton.addEventListener('click', () => {
+                    productionModal.style.display = 'none';
+                });
+
+                // Hide the modal if the user clicks outside of the modal content
+                window.addEventListener('click', (event) => {
+                    if (event.target === productionModal) {
+                        productionModal.style.display = 'none';
+                    }
+                });
+            } else {
+                console.error('Modal control buttons not found. Check IDs.');
+            }
+
+            // Adjust positioning of button and animation if image size is known or after load
+            // For more precise positioning, you might need to get the image's rendered dimensions
+            // and calculate percentages or pixel values accordingly.
+            // The current CSS uses percentages which will scale with the image wrapper.
+            // Example:
+            // const desertImage = document.querySelector('.desert-image-wrapper img');
+            // if (desertImage) {
+            //     desertImage.onload = () => {
+            //         // You can get desertImage.width and desertImage.height here
+            //         // and dynamically adjust CSS for the button/animation if needed.
+            //         console.log('Desert image loaded, dimensions:', desertImage.width, desertImage.height);
+            //     };
+            //     if (desertImage.complete) { // If already loaded from cache
+            //         // desertImage.onload(); // Or directly use dimensions
+            //          console.log('Desert image already loaded, dimensions:', desertImage.width, desertImage.height);
+            //     }
+            // }
+        });
+    </script>
+</body>
+</html>
