@@ -82,105 +82,94 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Canvas Map Drawing and Interaction ---
     const mapImage = new Image();
-    // Path to your main map image, located in images/regions/
-    // Assumes index.html is in the root of your project (e.g., Biomes/)
-    mapImage.src = 'images/regions/main_map_01.png';
+    mapImage.src = 'images/regions/main_map_01.png'; // Path to your main map image
 
-    // IMPORTANT:
-    // 1. 'coords' are from your original code. Adjust if your main_map_01.png visuals have changed.
-    // 2. 'targetUrl' now points to .png files within 'images/regions/' based on your file structure.
-    //    Ensure these image files exist at these paths in your repository with correct casing.
     const regions = [
         {
             name: 'Desert',
             shape: 'rect',
-            coords: [30, 30, 450, 300], // Original coordinates from your first script
-            targetUrl: 'images/regions/desert.png', // Points to the desert image
+            coords: [30, 30, 450, 300],
+            targetUrl: 'regions/desert_production.html', // UPDATED: Points to the new HTML page
             hoverColor: 'rgba(255, 193, 7, 0.4)',
             rewards: { coin: 5 }
         },
         {
             name: 'Forest',
             shape: 'rect',
-            coords: [600, 50, 350, 400], // Original coordinates
-            targetUrl: 'images/regions/forest.png', // Points to the forest image
+            coords: [600, 50, 350, 400],
+            targetUrl: 'images/regions/forest.png', // Kept as PNG for now, update if Forest also gets a page
             hoverColor: 'rgba(76, 175, 80, 0.4)',
             rewards: { wood: 15, fish: 1 }
         },
         {
             name: 'Castle',
             shape: 'rect',
-            coords: [150, 700, 250, 200], // Original coordinates
-            targetUrl: 'images/regions/castle.png', // Points to the castle image
+            coords: [150, 700, 250, 200],
+            targetUrl: 'images/regions/castle.png', // Kept as PNG
             hoverColor: 'rgba(121, 85, 72, 0.4)'
-            // No direct rewards from map click assumed for Castle
         },
         {
             name: 'Mountains',
             shape: 'rect',
-            coords: [550, 600, 350, 250], // Original coordinates
-            targetUrl: 'images/regions/mountain.png', // Points to the mountain image (ensure filename 'mountain.png' is correct)
+            coords: [550, 600, 350, 250],
+            targetUrl: 'images/regions/mountain.png', // Kept as PNG
             hoverColor: 'rgba(158, 158, 158, 0.4)',
             rewards: { stone: 20, coin: 2 }
         },
         {
             name: 'Lake',
             shape: 'rect',
-            coords: [30, 500, 300, 200], // Original coordinates
-            targetUrl: 'images/regions/fishing2.png', // Assuming 'fishing2.png' is your lake image based on file list
+            coords: [30, 500, 300, 200],
+            targetUrl: 'images/regions/fishing2.png', // Kept as PNG
             hoverColor: 'rgba(33, 150, 243, 0.4)',
             rewards: { fish: 3 }
         },
         {
             name: 'DirtIsland',
             shape: 'rect',
-            coords: [430, 500, 200, 200], // Original coordinates
-            targetUrl: null, // Set to 'images/regions/dirt_island.png' if you have a specific image, otherwise null
-            hoverColor: 'rgba(188, 143, 143, 0.4)', // Example: RosyBrown
+            coords: [430, 500, 200, 200],
+            targetUrl: null,
+            hoverColor: 'rgba(188, 143, 143, 0.4)',
             rewards: { stone: 2 }
         },
         {
             name: 'ForestIsland',
             shape: 'rect',
-            coords: [250, 400, 200, 150], // Original coordinates
-            targetUrl: null, // Set to 'images/regions/forest_island.png' if you have a specific image, otherwise null
-            hoverColor: 'rgba(60, 179, 113, 0.4)', // Example: MediumSeaGreen
+            coords: [250, 400, 200, 150],
+            targetUrl: null,
+            hoverColor: 'rgba(60, 179, 113, 0.4)',
             rewards: { wood: 5 }
         }
     ];
 
     mapImage.onload = () => {
-        // Set canvas dimensions to match the loaded image if not set by CSS or to default
-        // This helps ensure coordinates map correctly to the image.
-        if (canvas.width === 0 || canvas.height === 0 || (canvas.width === 300 && canvas.height === 150)) { // Default canvas size check
+        if (canvas.width === 0 || canvas.height === 0 || (canvas.width === 300 && canvas.height === 150)) {
             canvas.width = mapImage.naturalWidth;
             canvas.height = mapImage.naturalHeight;
         }
-        loadGameState(); // Load state and then draw
-        drawMapAndRegions(currentlyHoveredRegion); // Draw initial map state
+        loadGameState();
+        drawMapAndRegions(currentlyHoveredRegion);
 
         canvas.addEventListener('click', handleClick);
         canvas.addEventListener('mousemove', handleMouseMove);
         canvas.addEventListener('mouseout', () => {
             currentlyHoveredRegion = null;
-            if (!clickFlashRegion) { // Don't clear flash if mouseout happens during flash
+            if (!clickFlashRegion) {
                 drawMapAndRegions(null);
             }
             canvas.style.cursor = 'default';
         });
 
-        // Start automatic day advancement: 1 day every minute (60000 ms)
         setInterval(advanceDay, 60000);
         console.log("Automatic day advancement started (1 day per minute).");
     };
 
     mapImage.onerror = () => {
         console.error(`Failed to load the map image from: ${mapImage.src}. Check path, file existence, and case sensitivity.`);
-        const canvasWidth = canvas.width || 600; // Fallback width
-        const canvasHeight = canvas.height || 400; // Fallback height
+        const canvasWidth = canvas.width || 600;
+        const canvasHeight = canvas.height || 400;
         ctx.fillStyle = 'lightgray';
         ctx.fillRect(0,0, canvasWidth, canvasHeight);
-
         ctx.fillStyle = 'red';
         ctx.textAlign = 'center';
         ctx.font = 'bold 16px Arial';
@@ -191,53 +180,36 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.fillText(`Attempted path: ${mapImage.src}`, centerX, centerY + 20);
     };
 
-    /**
-     * Clears the canvas and redraws the map image, hover effects, and click flash.
-     * @param {Object|null} regionToHover - The region object to show normal hover for, or null.
-     */
     function drawMapAndRegions(regionToHover = null) {
         const canvasWidth = canvas.width;
         const canvasHeight = canvas.height;
-
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-        // Draw the main map image
-        if (mapImage.complete && mapImage.naturalWidth > 0) { // Check if map image is loaded and valid
+        if (mapImage.complete && mapImage.naturalWidth > 0) {
             ctx.drawImage(mapImage, 0, 0, canvasWidth, canvasHeight);
         } else {
-            // Fallback display if image isn't ready (though onerror should catch critical failures)
-            ctx.fillStyle = '#ddc'; // A light placeholder color
+            ctx.fillStyle = '#ddc';
             ctx.fillRect(0, 0, canvasWidth, canvasHeight);
             ctx.fillStyle = 'black';
             ctx.textAlign = 'center';
             ctx.font = '14px Arial';
             ctx.fillText('Map image is loading or failed to load...', canvasWidth / 2, canvasHeight / 2);
-            return; // Don't try to draw regions if map isn't there
+            return;
         }
 
-
-        // Draw click flash effect if active
         if (clickFlashRegion) {
             ctx.fillStyle = CLICK_FLASH_COLOR;
             const [x, y, w, h] = clickFlashRegion.coords;
             ctx.fillRect(x, y, w, h);
         }
-        // Draw normal hover effect if a region is hovered and not currently being flashed
         else if (regionToHover) {
-            ctx.fillStyle = regionToHover.hoverColor || 'rgba(0, 0, 0, 0.2)'; // Default hover if none specified
+            ctx.fillStyle = regionToHover.hoverColor || 'rgba(0, 0, 0, 0.2)';
             const [x, y, w, h] = regionToHover.coords;
             ctx.fillRect(x, y, w, h);
         }
     }
 
-    /**
-     * Gets the mouse position relative to the canvas, scaled to canvas drawing dimensions.
-     * @param {HTMLCanvasElement} canvasElement - The canvas element.
-     * @param {MouseEvent} event - The mouse event.
-     * @returns {Object} An object with x and y coordinates.
-     */
     function getMousePos(canvasElement, event) {
         const rect = canvasElement.getBoundingClientRect();
-        // Scale mouse coordinates to match canvas drawing surface if CSS scales the canvas display size
         const scaleX = canvasElement.width / rect.width;
         const scaleY = canvasElement.height / rect.height;
         return {
@@ -246,46 +218,30 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
-    /**
-     * Checks if a point is within a given region's coordinates.
-     * @param {Object} point - An object with x and y coordinates (mouse position).
-     * @param {Object} region - The region object with shape and coords properties.
-     * @returns {boolean} True if the point is in the region, false otherwise.
-     */
     function isPointInRegion(point, region) {
         if (region.shape === 'rect') {
             const [rx, ry, rwidth, rheight] = region.coords;
             return point.x >= rx && point.x <= rx + rwidth &&
                    point.y >= ry && point.y <= ry + rheight;
         }
-        // Future: Add support for other shapes like 'circle' if needed
         return false;
     }
 
-    /**
-     * Handles click events on the canvas.
-     * @param {MouseEvent} event - The click event.
-     */
     function handleClick(event) {
         const mousePos = getMousePos(canvas, event);
-
         for (const region of regions) {
             if (isPointInRegion(mousePos, region)) {
                 console.log(`Clicked on ${region.name}. Target URL: ${region.targetUrl}`);
-
-                // Clear any previous flash timeout and set up new flash
                 if (clickFlashTimeoutId) {
                     clearTimeout(clickFlashTimeoutId);
                 }
                 clickFlashRegion = region;
-                drawMapAndRegions(currentlyHoveredRegion); // Redraw immediately to show flash
-
+                drawMapAndRegions(currentlyHoveredRegion);
                 clickFlashTimeoutId = setTimeout(() => {
-                    clickFlashRegion = null; // Clear the flash state
-                    drawMapAndRegions(currentlyHoveredRegion); // Redraw to remove flash
+                    clickFlashRegion = null;
+                    drawMapAndRegions(currentlyHoveredRegion);
                 }, CLICK_FLASH_DURATION);
 
-                // Process rewards
                 let resourcesChanged = false;
                 if (region.rewards) {
                     for (const resourceType in region.rewards) {
@@ -295,63 +251,46 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     }
                 }
-
                 if (resourcesChanged) {
                     updateUIDisplay();
                     saveGameState();
                 }
-
-                // Navigate to the target URL if it's defined
                 if (region.targetUrl) {
-                    // Delay navigation slightly to allow flash to be visible
                     setTimeout(() => {
                         window.location.href = region.targetUrl;
                     }, CLICK_FLASH_DURATION / 2);
                 }
-                return; // Exit loop once a region is clicked and handled
+                return;
             }
         }
     }
 
-    let currentlyHoveredRegion = null; // Stores the region object currently being hovered
-
-    /**
-     * Handles mouse move events on the canvas to show hover effects.
-     * @param {MouseEvent} event - The mouse move event.
-     */
+    let currentlyHoveredRegion = null;
     function handleMouseMove(event) {
         const mousePos = getMousePos(canvas, event);
         let foundRegionToHover = null;
-
         for (const region of regions) {
             if (isPointInRegion(mousePos, region)) {
                 foundRegionToHover = region;
                 break;
             }
         }
-
         if (foundRegionToHover) {
-            canvas.style.cursor = 'pointer'; // Change cursor to pointer
+            canvas.style.cursor = 'pointer';
             if (foundRegionToHover !== currentlyHoveredRegion) {
                 currentlyHoveredRegion = foundRegionToHover;
-                // Only redraw if not in the middle of a click flash for a *different* region
-                // or if the new hover is the region being flashed (which is fine)
                 if (!clickFlashRegion || clickFlashRegion === currentlyHoveredRegion) {
                     drawMapAndRegions(currentlyHoveredRegion);
                 }
             }
         } else {
-            canvas.style.cursor = 'default'; // Change cursor back to default
+            canvas.style.cursor = 'default';
             if (currentlyHoveredRegion !== null) {
                 currentlyHoveredRegion = null;
-                // Only redraw if not in the middle of a click flash
                 if (!clickFlashRegion) {
                     drawMapAndRegions(null);
                 }
             }
         }
     }
-
-    // Initial load of game state.
-    // mapImage.onload will call loadGameState() and drawMapAndRegions() once the image is ready.
 });
