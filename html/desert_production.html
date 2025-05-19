@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desert Pyramid</title>
+    <title>Desert Pyramid - Gold Production</title>
     <style>
         body, html {
             margin: 0;
             padding: 0;
             font-family: 'Arial Rounded MT Bold', 'Helvetica Rounded', Arial, sans-serif;
-            background-color: #e4d8c5; /* Sandy beige background, matching main page */
+            background-color: #e4d8c5;
             color: #5a4c3d;
             display: flex;
             justify-content: center;
@@ -19,10 +19,10 @@
         }
 
         .desert-container {
-            position: relative; /* For absolute positioning of button and animation */
-            max-width: 800px; /* Adjust as needed */
+            position: relative;
+            max-width: 800px;
             width: 90%;
-            background-color: #fff; /* Optional background for the container */
+            background-color: #fff;
             border: 3px solid #a98e60;
             border-radius: 8px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
@@ -34,10 +34,10 @@
         }
 
         .desert-image-wrapper {
-            position: relative; /* For positioning elements over the image */
+            position: relative;
             width: 100%;
-            max-width: 600px; /* Or the natural width of your desert.png */
-            margin: 0 auto; /* Center the image wrapper */
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .desert-image-wrapper img {
@@ -47,47 +47,31 @@
             border-radius: 5px;
         }
 
-        /* Red Circle Animation at the Pyramid */
         .pyramid-animation-circle {
             position: absolute;
-            /* Estimated position for the pyramid center based on image_e70268.jpg */
-            /* Top-left of pyramid base is roughly 10% from left, 35% from top */
-            /* Pyramid peak is roughly 25% from left, 15% from top */
-            /* Let's center it on the pyramid's visual mass */
-            left: 25%; /* Adjust this based on your desert.png */
-            top: 30%;  /* Adjust this based on your desert.png */
-            width: 40px; /* Size of the circle */
+            left: 25%; /* Adjust based on your desert.png */
+            top: 30%;  /* Adjust based on your desert.png */
+            width: 40px;
             height: 40px;
             border: 3px solid red;
             border-radius: 50%;
-            transform: translate(-50%, -50%) scale(1); /* Center it and prepare for scaling */
+            transform: translate(-50%, -50%) scale(1);
             opacity: 0.7;
             animation: pulse 2s infinite ease-in-out;
-            pointer-events: none; /* So it doesn't interfere with the button */
+            pointer-events: none;
         }
 
         @keyframes pulse {
-            0% {
-                transform: translate(-50%, -50%) scale(0.8);
-                opacity: 0.5;
-            }
-            50% {
-                transform: translate(-50%, -50%) scale(1.2);
-                opacity: 1;
-            }
-            100% {
-                transform: translate(-50%, -50%) scale(0.8);
-                opacity: 0.5;
-            }
+            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
         }
 
-        /* Start Button on the Pyramid */
         .start-production-button {
             position: absolute;
-            /* Position it over the pyramid. Adjust these values precisely. */
-            left: 25%; /* Center of pyramid's width (approx) */
-            top: 35%;  /* Slightly lower on the pyramid (approx) */
-            transform: translate(-50%, -50%); /* Center the button on its coordinates */
+            left: 25%; 
+            top: 35%;  
+            transform: translate(-50%, -50%); 
             padding: 12px 25px;
             font-size: 1.1em;
             font-weight: bold;
@@ -98,65 +82,152 @@
             cursor: pointer;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             transition: background-color 0.3s ease, transform 0.1s ease;
-            z-index: 10; /* Ensure it's above the animation circle if they overlap */
+            z-index: 10; 
         }
+        .start-production-button:hover { background-color: #45a049; }
+        .start-production-button:active { transform: translate(-50%, -50%) scale(0.95); }
 
-        .start-production-button:hover {
-            background-color: #45a049;
-        }
-        .start-production-button:active {
-            transform: translate(-50%, -50%) scale(0.95);
-        }
-
-        /* Production Screen Modal */
-        .production-modal {
+        /* Gold Production Menu Modal */
+        .gold-production-menu {
             display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 100; /* Sit on top */
+            position: fixed;
+            z-index: 1000; /* Ensure it's on top of everything */
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
-            justify-content: center; /* For flex centering */
-            align-items: center; /* For flex centering */
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5); /* Semi-transparent black overlay */
+            justify-content: center;
+            align-items: center;
         }
 
-        .production-modal-content {
-            background-color: #fefefe;
-            margin: auto; /* Used with flex, ensures it's centered */
-            padding: 30px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 500px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            text-align: center;
-            position: relative; /* For positioning the close button */
+        .gold-production-menu-content {
+            position: relative;
+            background-color: #f4e9c0; /* Light sandy color for the menu */
+            /* Background image for the production menu */
+            background-image: url('../images/regions/desert/pyramid_valley.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            padding: 25px;
+            border: 3px solid #c8a050; /* Golden border */
+            width: 90%;
+            max-width: 700px; /* Adjust as needed */
+            min-height: 500px; /* Ensure enough space for buildings */
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+            color: #4a3b2a; /* Darker text for contrast on the new background */
+            overflow-y: auto; /* Allow scrolling if content exceeds height */
         }
-
-        .production-modal-content h2 {
-            color: #5a4c3d;
-            margin-top: 0;
-        }
-
-        .close-modal-button {
-            color: #aaa;
-            /* float: right; Removed for absolute positioning */
-            font-size: 28px;
-            font-weight: bold;
+        
+        /* Overlay to improve text readability on background image */
+        .gold-production-menu-content::before {
+            content: "";
             position: absolute;
-            top: 10px;
-            right: 20px;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(244, 233, 192, 0.6); /* Semi-transparent overlay matching background */
+            border-radius: 12px; /* Match parent's border-radius */
+            z-index: -1; /* Place it behind the content */
         }
 
-        .close-modal-button:hover,
-        .close-modal-button:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
+
+        .gold-production-menu-content h2 {
+            text-align: center;
+            color: #8B4513; /* SaddleBrown for title */
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
         }
+
+        .close-gold-menu-button {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            color: #8B4513;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .close-gold-menu-button:hover { color: #5a2d0c; }
+
+        .total-gold-production {
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: rgba(255, 215, 0, 0.2); /* Light gold background */
+            border-radius: 5px;
+        }
+        .total-gold-production span {
+            color: #DAA520; /* Gold color */
+        }
+
+        .buildings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid */
+            gap: 15px;
+        }
+
+        .building-card {
+            background-color: rgba(255, 250, 230, 0.85); /* Slightly more opaque */
+            border: 2px solid #b8860b; /* DarkGoldenRod */
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .building-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .building-card h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #800000; /* Maroon */
+        }
+        .building-card p {
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+        .building-card .cost, .building-card .production {
+            font-weight: bold;
+        }
+        .building-card .cost span { color: #B8860B; } /* Gold color for cost */
+        .building-card .production span { color: #228B22; } /* ForestGreen for production */
+
+        .unlock-building-button {
+            padding: 8px 15px;
+            font-size: 0.9em;
+            font-weight: bold;
+            color: white;
+            background-color: #CD853F; /* Peru */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 10px;
+        }
+        .unlock-building-button:hover { background-color: #A0522D; } /* Sienna */
+        .unlock-building-button:disabled {
+            background-color: #aaa;
+            cursor: not-allowed;
+        }
+        .building-card.unlocked .unlock-building-button {
+            background-color: #5cb85c; /* Green for unlocked/upgradable */
+        }
+         .building-card.unlocked .unlock-building-button:hover {
+            background-color: #4cae4c; 
+        }
+
 
         .back-to-map-link {
             display: inline-block;
@@ -168,9 +239,7 @@
             border-radius: 5px;
             font-size: 0.9em;
         }
-        .back-to-map-link:hover {
-            background-color: #705c3e;
-        }
+        .back-to-map-link:hover { background-color: #705c3e; }
 
     </style>
 </head>
@@ -178,69 +247,138 @@
     <div class="desert-container">
         <h1>Pyramid of the Ancients</h1>
         <div class="desert-image-wrapper">
-            <img src="../images/regions/desert.png" alt="Desert Scene with Pyramid"
+            <img src="../../images/regions/desert.png" alt="Desert Scene with Pyramid"
                  onerror="this.onerror=null; this.src='https://placehold.co/600x400/F4A460/FFFFFF?text=Desert+Image+Missing'; this.alt='Desert image missing';">
             <div class="pyramid-animation-circle"></div>
-            <button id="startProductionBtn" class="start-production-button">Start Production</button>
+            <button id="startProductionPageBtn" class="start-production-button">Start Production</button>
         </div>
-
-        <a href="../index.html" class="back-to-map-link">Back to World Map</a>
+        <a href="../../index.html" class="back-to-map-link">Back to World Map</a>
     </div>
 
-    <div id="productionScreenModal" class="production-modal">
-        <div class="production-modal-content">
-            <span class="close-modal-button" id="closeModalBtn">&times;</span>
-            <h2>Pyramid Production</h2>
-            <p>Resources are now being generated from the pyramid!</p>
-            <p>You are producing: <strong>Ancient Artifacts</strong></p>
-            <p id="productionDetails">Rate: 1 Artifact per cycle.</p>
+    <div id="goldProductionMenu" class="gold-production-menu">
+        <div class="gold-production-menu-content">
+            <span class="close-gold-menu-button" id="closeGoldMenuBtn">&times;</span>
+            <h2>Pyramid Gold Works</h2>
+            <div class="total-gold-production">Total Gold Per Cycle: <span id="totalGoldProductionValue">0</span></div>
+            <div class="buildings-grid" id="buildingsGridContainer">
+                </div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const startButton = document.getElementById('startProductionBtn');
-            const productionModal = document.getElementById('productionScreenModal');
-            const closeModalButton = document.getElementById('closeModalBtn');
+            const startProductionPageBtn = document.getElementById('startProductionPageBtn');
+            const goldProductionMenu = document.getElementById('goldProductionMenu');
+            const closeGoldMenuBtn = document.getElementById('closeGoldMenuBtn');
+            const buildingsGridContainer = document.getElementById('buildingsGridContainer');
+            const totalGoldProductionValueEl = document.getElementById('totalGoldProductionValue');
 
-            if(startButton && productionModal && closeModalButton) {
-                // Show the production modal when the start button is clicked
-                startButton.addEventListener('click', () => {
-                    productionModal.style.display = 'flex'; // Use flex to enable centering
+            // Define building data
+            // (name, initialCost, baseProduction, costMultiplier, productionMultiplier, icon (optional))
+            const buildingTypes = [
+                { id: 'mine_shaft', name: "Prospector's Shaft", cost: 50, production: 1, unlocked: false, level: 0 },
+                { id: 'sluice_box', name: "Desert Sluice Box", cost: 250, production: 5, unlocked: false, level: 0 },
+                { id: 'ore_cart_rail', name: "Ore Cart Railway", cost: 1000, production: 20, unlocked: false, level: 0 },
+                { id: 'stamping_mill', name: "Gold Stamping Mill", cost: 5000, production: 75, unlocked: false, level: 0 },
+                { id: 'refinery', name: "Small Refinery", cost: 20000, production: 250, unlocked: false, level: 0 },
+                { id: 'deep_mine', name: "Deep Vein Mine", cost: 100000, production: 1000, unlocked: false, level: 0 },
+                { id: 'alchemists_lab', name: "Alchemist's Lab", cost: 500000, production: 4000, unlocked: false, level: 0 },
+                { id: 'treasury_vault', name: "Treasury Vault", cost: 2000000, production: 15000, unlocked: false, level: 0 },
+                { id: 'gold_golem_foundry', name: "Gold Golem Foundry", cost: 10000000, production: 60000, unlocked: false, level: 0 },
+                { id: 'philosophers_stone', name: "Philosopher's Stone Chamber", cost: 50000000, production: 250000, unlocked: false, level: 0 }
+            ];
+
+            let buildingsState = JSON.parse(localStorage.getItem('pyramidBuildingsState')) || JSON.parse(JSON.stringify(buildingTypes)); // Deep copy
+            let currentGold = parseInt(localStorage.getItem('playerGold')) || 200; // Start with some gold for testing
+
+            function saveBuildingsState() {
+                localStorage.setItem('pyramidBuildingsState', JSON.stringify(buildingsState));
+            }
+            function savePlayerGold() {
+                localStorage.setItem('playerGold', currentGold);
+                // Also update gold on main page if possible (requires more complex state management)
+            }
+
+
+            function renderBuildings() {
+                buildingsGridContainer.innerHTML = ''; // Clear existing buildings
+                let totalProduction = 0;
+                let previousBuildingUnlocked = true; // First building is always potentially unlockable
+
+                buildingsState.forEach((building, index) => {
+                    const card = document.createElement('div');
+                    card.classList.add('building-card');
+                    if (building.unlocked) {
+                        card.classList.add('unlocked');
+                        totalProduction += building.production * (building.level > 0 ? building.level : 1); // Assuming level 0 is not producing
+                    }
+
+                    card.innerHTML = `
+                        <h3>${building.name} ${building.level > 0 ? `(Lvl ${building.level})` : ''}</h3>
+                        <p class="description">Unlocks ancient gold extraction techniques.</p>
+                        <p class="production">Produces: <span>${building.unlocked ? (building.production * (building.level > 0 ? building.level : 1)) : 0}</span> Gold/cycle</p>
+                        <p class="cost">Unlock Cost: <span>${building.cost}</span> Gold</p>
+                        <button class="unlock-building-button" data-index="${index}" ${building.unlocked || !previousBuildingUnlocked ? 'disabled' : ''}>
+                            ${building.unlocked ? 'Upgrade (Soon)' : 'Unlock'}
+                        </button>
+                    `;
+                    // Logic for disabling unlock button:
+                    // 1. If already unlocked, disable (until upgrade implemented)
+                    // 2. If previous building is not unlocked, disable (sequential unlock)
+                    // 3. If not enough gold, it will be handled in the event listener
+
+                    buildingsGridContainer.appendChild(card);
+                    if (!building.unlocked) {
+                        previousBuildingUnlocked = false; // Next building cannot be unlocked yet
+                    }
                 });
 
-                // Hide the modal when the close button is clicked
-                closeModalButton.addEventListener('click', () => {
-                    productionModal.style.display = 'none';
-                });
+                totalGoldProductionValueEl.textContent = totalProduction;
+                addUnlockListeners();
+            }
 
-                // Hide the modal if the user clicks outside of the modal content
+            function addUnlockListeners() {
+                const buttons = document.querySelectorAll('.unlock-building-button');
+                buttons.forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const index = parseInt(e.target.dataset.index);
+                        const building = buildingsState[index];
+
+                        if (!building.unlocked && currentGold >= building.cost) {
+                            currentGold -= building.cost;
+                            building.unlocked = true;
+                            building.level = 1; // Initial unlock sets to level 1
+                            console.log(`Unlocked ${building.name} for ${building.cost} gold. Current gold: ${currentGold}`);
+                            savePlayerGold();
+                            saveBuildingsState();
+                            renderBuildings(); // Re-render to update UI and enable next building
+                        } else if (building.unlocked) {
+                            // Placeholder for upgrade logic
+                            alert(`${building.name} is already unlocked. Upgrade functionality coming soon!`);
+                        } else if (currentGold < building.cost) {
+                            alert(`Not enough gold to unlock ${building.name}. Need ${building.cost}, have ${currentGold}.`);
+                        }
+                    });
+                });
+            }
+
+            if (startProductionPageBtn && goldProductionMenu && closeGoldMenuBtn) {
+                startProductionPageBtn.addEventListener('click', () => {
+                    currentGold = parseInt(localStorage.getItem('playerGold')) || 200; // Refresh gold
+                    renderBuildings(); // Render buildings when menu is opened
+                    goldProductionMenu.style.display = 'flex';
+                });
+                closeGoldMenuBtn.addEventListener('click', () => {
+                    goldProductionMenu.style.display = 'none';
+                });
                 window.addEventListener('click', (event) => {
-                    if (event.target === productionModal) {
-                        productionModal.style.display = 'none';
+                    if (event.target === goldProductionMenu) {
+                        goldProductionMenu.style.display = 'none';
                     }
                 });
             } else {
                 console.error('Modal control buttons not found. Check IDs.');
             }
-
-            // Adjust positioning of button and animation if image size is known or after load
-            // For more precise positioning, you might need to get the image's rendered dimensions
-            // and calculate percentages or pixel values accordingly.
-            // The current CSS uses percentages which will scale with the image wrapper.
-            // Example:
-            // const desertImage = document.querySelector('.desert-image-wrapper img');
-            // if (desertImage) {
-            //     desertImage.onload = () => {
-            //         // You can get desertImage.width and desertImage.height here
-            //         // and dynamically adjust CSS for the button/animation if needed.
-            //         console.log('Desert image loaded, dimensions:', desertImage.width, desertImage.height);
-            //     };
-            //     if (desertImage.complete) { // If already loaded from cache
-            //         // desertImage.onload(); // Or directly use dimensions
-            //          console.log('Desert image already loaded, dimensions:', desertImage.width, desertImage.height);
-            //     }
-            // }
         });
     </script>
 </body>
