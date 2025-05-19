@@ -3,9 +3,11 @@ body, html {
     margin: 0;
     padding: 0;
     font-family: 'Arial Rounded MT Bold', 'Helvetica Rounded', Arial, sans-serif;
-    background-color: #e4d8c5;
-    color: #5a4c3d;
-    height: 100%;
+    background-color: #e4d8c5; /* Sandy beige background */
+    color: #5a4c3d; /* Dark brown text */
+    min-height: 100%; /* Changed from height to min-height for flexibility */
+    display: flex; /* Added to help center game-container if needed */
+    justify-content: center; /* Added to help center game-container */
 }
 
 .game-container {
@@ -13,101 +15,152 @@ body, html {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    min-height: 100vh;
-    padding: 0 10px;
+    max-width: 960px; /* Max width for the game content */
+    min-height: 100vh; /* Ensure it takes at least the full viewport height */
+    padding: 10px; /* Padding around the game container */
     box-sizing: border-box;
 }
 
 /* Top Bar for Resources and Day Counter */
 .top-bar {
     width: 100%;
-    max-width: 900px;
-    background-color: #d7c095;
-    padding: 8px 15px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    background-color: #d7c095; /* Lighter, slightly desaturated brown */
+    padding: 10px 20px; /* Increased padding */
+    border-radius: 12px; /* Slightly more rounded corners */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); /* Softer shadow */
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 15px;
-    margin-bottom: 15px;
+    margin-bottom: 20px; /* More space below top bar */
     box-sizing: border-box;
-    border: 2px solid #a98e60;
+    border: 2px solid #a98e60; /* Darker border for definition */
 }
 
 .resources {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 20px; /* Increased gap */
 }
 
 .resource-item {
     display: flex;
     align-items: center;
-    background-color: #f5eeda;
-    padding: 5px 10px;
-    border-radius: 20px;
-    border: 1px solid #c8b58c;
-    box-shadow: inset 0 0 3px rgba(0,0,0,0.1);
+    background-color: #f5eeda; /* Creamy off-white */
+    padding: 6px 12px; /* Adjusted padding */
+    border-radius: 25px; /* Pill shape */
+    border: 1px solid #c8b58c; /* Softer border */
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(255,255,255,0.3); /* Subtle inner and outer shadow */
 }
 
 .resource-icon {
-    width: 24px;  /* Adjust if your icons are different sizes */
-    height: 24px; /* Adjust if your icons are different sizes */
-    margin-right: 8px;
+    width: 28px; /* Slightly larger icons */
+    height: 28px;
+    margin-right: 10px; /* More space next to icon */
     vertical-align: middle;
 }
 
 .resource-value {
-    font-size: 1.1em;
+    font-size: 1.15em; /* Slightly larger text */
     font-weight: bold;
-    color: #6d573b;
+    color: #6d573b; /* Darker brown for resource values */
 }
 
 .day-counter {
-    font-size: 1.2em;
+    font-size: 1.25em; /* Larger day counter text */
     font-weight: bold;
-    color: #fff;
-    background-color: #8c734d;
-    padding: 6px 12px;
-    border-radius: 5px;
-    border: 1px solid #705c3e;
+    color: #fff; /* White text */
+    background-color: #8c734d; /* Earthy brown */
+    padding: 8px 15px; /* More padding */
+    border-radius: 8px; /* Rounded corners */
+    border: 1px solid #705c3e; /* Darker border */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
 }
 
 /* Map Area Styling */
 .map-area {
     width: 100%;
-    max-width: 900px;
     margin-bottom: 20px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    border: 3px solid #a98e60;
-    border-radius: 5px;
-    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25); /* More pronounced shadow */
+    border: 3px solid #a98e60; /* Consistent border */
+    border-radius: 8px; /* Rounded corners for the map area */
+    overflow: hidden; /* Ensures canvas corners are clipped if canvas is not styled with border-radius */
+    background-color: #c7bba6; /* Fallback color if canvas/image doesn't load */
 }
 
 #gameMapCanvas {
-    display: block;
+    display: block; /* Removes extra space below canvas */
+    width: 100%;  /* Canvas will scale with the .map-area container */
+    height: auto; /* Maintain aspect ratio */
+    /* border-radius: 5px; If you want the canvas itself to have rounded corners, matching .map-area's (minus border) */
+}
+
+/* Footer */
+footer {
     width: 100%;
-    height: auto;
+    text-align: center;
+    padding: 15px 0;
+    margin-top: auto; /* Pushes footer to the bottom if content is short */
+    font-size: 0.9em;
+    color: #7a6c5d; /* Softer color for footer text */
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .top-bar {
         flex-direction: column;
-        gap: 10px;
-        padding: 10px;
+        gap: 15px; /* Increased gap for column layout */
+        padding: 15px;
         margin-top: 10px;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
     }
     .resources {
-        gap: 10px;
+        gap: 12px; /* Adjusted gap for wrapped items */
         flex-wrap: wrap;
         justify-content: center;
     }
-    /* Further responsive adjustments from previous example... */
+    .resource-item {
+        padding: 5px 10px;
+    }
+    .resource-icon {
+        width: 24px;
+        height: 24px;
+        margin-right: 8px;
+    }
+    .resource-value {
+        font-size: 1.1em;
+    }
+    .day-counter {
+        font-size: 1.15em;
+        padding: 7px 12px;
+    }
 }
 
 @media (max-width: 480px) {
-    /* Further responsive adjustments from previous example... */
+    .resources {
+        gap: 8px;
+        /* On very small screens, you might want resources to stack or be smaller */
+    }
+    .resource-item {
+        padding: 4px 8px;
+    }
+    .resource-icon {
+        width: 20px;
+        height: 20px;
+        margin-right: 6px;
+    }
+    .resource-value {
+        font-size: 1em;
+    }
+    .day-counter {
+        font-size: 1.1em;
+        padding: 6px 10px;
+    }
+    .top-bar {
+        padding: 10px;
+        border-radius: 10px;
+    }
+    .map-area {
+        border-radius: 6px;
+    }
 }

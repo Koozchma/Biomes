@@ -15,10 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Get DOM elements for displaying resource counts and day count
-    const woodCountEl = document.getElementById('woodCount');   // For tree.png
-    const coinCountEl = document.getElementById('coinCount');   // For coin2.png
-    const fishCountEl = document.getElementById('fishCount');   // For fish.png
-    const stoneCountEl = document.getElementById('stoneCount'); // For rock.png
+    const woodCountEl = document.getElementById('woodCount');
+    const coinCountEl = document.getElementById('coinCount');
+    const fishCountEl = document.getElementById('fishCount');
+    const stoneCountEl = document.getElementById('stoneCount');
     const dayCountEl = document.getElementById('dayCount');
 
     // --- Game State Management (Resources and Day) ---
@@ -43,10 +43,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (savedGameState) {
             const loadedState = JSON.parse(savedGameState);
             gameState.currentDay = loadedState.currentDay || 1;
-            gameState.resources.wood = (loadedState.resources && loadedState.resources.wood) || 0;
-            gameState.resources.coin = (loadedState.resources && loadedState.resources.coin) || 0;
-            gameState.resources.fish = (loadedState.resources && loadedState.resources.fish) || 0;
-            gameState.resources.stone = (loadedState.resources && loadedState.resources.stone) || 0;
+            gameState.resources.wood = (loadedState.resources && loadedState.resources.wood !== undefined) ? loadedState.resources.wood : 0;
+            gameState.resources.coin = (loadedState.resources && loadedState.resources.coin !== undefined) ? loadedState.resources.coin : 0;
+            gameState.resources.fish = (loadedState.resources && loadedState.resources.fish !== undefined) ? loadedState.resources.fish : 0;
+            gameState.resources.stone = (loadedState.resources && loadedState.resources.stone !== undefined) ? loadedState.resources.stone : 0;
         }
         updateUIDisplay();
     }
@@ -82,71 +82,81 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Canvas Map Drawing and Interaction ---
     const mapImage = new Image();
-    mapImage.src = 'images/main_map.png'; // Using path from user's provided code
+    // Path to your main map image, located in images/regions/
+    // Assumes index.html is in the root of your project (e.g., Biomes/)
+    mapImage.src = 'images/regions/main_map_01.png';
 
+    // IMPORTANT:
+    // 1. 'coords' are from your original code. Adjust if your main_map_01.png visuals have changed.
+    // 2. 'targetUrl' now points to .png files within 'images/regions/' based on your file structure.
+    //    Ensure these image files exist at these paths in your repository with correct casing.
     const regions = [
         {
             name: 'Desert',
             shape: 'rect',
-            coords: [30, 30, 450, 300],
-            targetUrl: 'desert.html',
+            coords: [30, 30, 450, 300], // Original coordinates from your first script
+            targetUrl: 'images/regions/desert.png', // Points to the desert image
             hoverColor: 'rgba(255, 193, 7, 0.4)',
-            rewards: { coin: 5 } // Added placeholder rewards
+            rewards: { coin: 5 }
         },
         {
             name: 'Forest',
             shape: 'rect',
-            coords: [600, 50, 350, 400], // Added missing comma
-            targetUrl: 'forest.html',
+            coords: [600, 50, 350, 400], // Original coordinates
+            targetUrl: 'images/regions/forest.png', // Points to the forest image
             hoverColor: 'rgba(76, 175, 80, 0.4)',
             rewards: { wood: 15, fish: 1 }
         },
         {
             name: 'Castle',
             shape: 'rect',
-            coords: [150, 700, 250, 200],
-            targetUrl: 'castle.html',
+            coords: [150, 700, 250, 200], // Original coordinates
+            targetUrl: 'images/regions/castle.png', // Points to the castle image
             hoverColor: 'rgba(121, 85, 72, 0.4)'
-            // No direct rewards from map click assumed
+            // No direct rewards from map click assumed for Castle
         },
         {
             name: 'Mountains',
             shape: 'rect',
-            coords: [550, 600, 350, 250],
-            targetUrl: 'mountains.html',
+            coords: [550, 600, 350, 250], // Original coordinates
+            targetUrl: 'images/regions/mountain.png', // Points to the mountain image (ensure filename 'mountain.png' is correct)
             hoverColor: 'rgba(158, 158, 158, 0.4)',
             rewards: { stone: 20, coin: 2 }
         },
         {
             name: 'Lake',
             shape: 'rect',
-            coords: [30, 500, 300, 200],
-            targetUrl: 'lake.html',
+            coords: [30, 500, 300, 200], // Original coordinates
+            targetUrl: 'images/regions/fishing2.png', // Assuming 'fishing2.png' is your lake image based on file list
             hoverColor: 'rgba(33, 150, 243, 0.4)',
-            rewards: { fish: 3 } // Added rewards
+            rewards: { fish: 3 }
         },
         {
             name: 'DirtIsland',
             shape: 'rect',
-            coords: [430, 500, 200, 200],
-            targetUrl: 'lake.html', // Assuming this also goes to lake or a specific island page
-            hoverColor: 'rgba(76, 243, 57, 0.4)',
-            rewards: { stone: 2 } // Added placeholder rewards
+            coords: [430, 500, 200, 200], // Original coordinates
+            targetUrl: null, // Set to 'images/regions/dirt_island.png' if you have a specific image, otherwise null
+            hoverColor: 'rgba(188, 143, 143, 0.4)', // Example: RosyBrown
+            rewards: { stone: 2 }
         },
         {
             name: 'ForestIsland',
             shape: 'rect',
-            coords: [250, 400, 200, 150],
-            targetUrl: 'lake.html', // Assuming this also goes to lake or a specific island page
-            hoverColor: 'rgba(18, 61, 214, 0.4)',
-            rewards: { wood: 5 } // Added placeholder rewards
+            coords: [250, 400, 200, 150], // Original coordinates
+            targetUrl: null, // Set to 'images/regions/forest_island.png' if you have a specific image, otherwise null
+            hoverColor: 'rgba(60, 179, 113, 0.4)', // Example: MediumSeaGreen
+            rewards: { wood: 5 }
         }
     ];
 
     mapImage.onload = () => {
-        canvas.width = mapImage.naturalWidth;
-        canvas.height = mapImage.naturalHeight;
-        loadGameState();
+        // Set canvas dimensions to match the loaded image if not set by CSS or to default
+        // This helps ensure coordinates map correctly to the image.
+        if (canvas.width === 0 || canvas.height === 0 || (canvas.width === 300 && canvas.height === 150)) { // Default canvas size check
+            canvas.width = mapImage.naturalWidth;
+            canvas.height = mapImage.naturalHeight;
+        }
+        loadGameState(); // Load state and then draw
         drawMapAndRegions(currentlyHoveredRegion); // Draw initial map state
 
         canvas.addEventListener('click', handleClick);
@@ -165,15 +175,18 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     mapImage.onerror = () => {
-        console.error(`Failed to load the map image from: ${mapImage.src}. Check path and file existence.`);
+        console.error(`Failed to load the map image from: ${mapImage.src}. Check path, file existence, and case sensitivity.`);
+        const canvasWidth = canvas.width || 600; // Fallback width
+        const canvasHeight = canvas.height || 400; // Fallback height
         ctx.fillStyle = 'lightgray';
-        ctx.fillRect(0,0, canvas.width || 600, canvas.height || 400);
+        ctx.fillRect(0,0, canvasWidth, canvasHeight);
+
         ctx.fillStyle = 'red';
         ctx.textAlign = 'center';
         ctx.font = 'bold 16px Arial';
-        const centerX = (canvas.width || 600) / 2;
-        const centerY = (canvas.height || 400) / 2;
-        ctx.fillText('Error: Could not load map image.', centerX, centerY);
+        const centerX = canvasWidth / 2;
+        const centerY = canvasHeight / 2;
+        ctx.fillText('Error: Could not load map image.', centerX, centerY -10);
         ctx.font = '14px Arial';
         ctx.fillText(`Attempted path: ${mapImage.src}`, centerX, centerY + 20);
     };
@@ -183,8 +196,24 @@ document.addEventListener('DOMContentLoaded', () => {
      * @param {Object|null} regionToHover - The region object to show normal hover for, or null.
      */
     function drawMapAndRegions(regionToHover = null) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(mapImage, 0, 0, canvas.width, canvas.height);
+        const canvasWidth = canvas.width;
+        const canvasHeight = canvas.height;
+
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+        // Draw the main map image
+        if (mapImage.complete && mapImage.naturalWidth > 0) { // Check if map image is loaded and valid
+            ctx.drawImage(mapImage, 0, 0, canvasWidth, canvasHeight);
+        } else {
+            // Fallback display if image isn't ready (though onerror should catch critical failures)
+            ctx.fillStyle = '#ddc'; // A light placeholder color
+            ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+            ctx.fillStyle = 'black';
+            ctx.textAlign = 'center';
+            ctx.font = '14px Arial';
+            ctx.fillText('Map image is loading or failed to load...', canvasWidth / 2, canvasHeight / 2);
+            return; // Don't try to draw regions if map isn't there
+        }
+
 
         // Draw click flash effect if active
         if (clickFlashRegion) {
@@ -193,16 +222,22 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.fillRect(x, y, w, h);
         }
         // Draw normal hover effect if a region is hovered and not currently being flashed
-        // or if the flashed region is also the one being hovered (after flash timeout clears clickFlashRegion)
         else if (regionToHover) {
-            ctx.fillStyle = regionToHover.hoverColor || 'rgba(0, 0, 0, 0.2)';
+            ctx.fillStyle = regionToHover.hoverColor || 'rgba(0, 0, 0, 0.2)'; // Default hover if none specified
             const [x, y, w, h] = regionToHover.coords;
             ctx.fillRect(x, y, w, h);
         }
     }
 
+    /**
+     * Gets the mouse position relative to the canvas, scaled to canvas drawing dimensions.
+     * @param {HTMLCanvasElement} canvasElement - The canvas element.
+     * @param {MouseEvent} event - The mouse event.
+     * @returns {Object} An object with x and y coordinates.
+     */
     function getMousePos(canvasElement, event) {
         const rect = canvasElement.getBoundingClientRect();
+        // Scale mouse coordinates to match canvas drawing surface if CSS scales the canvas display size
         const scaleX = canvasElement.width / rect.width;
         const scaleY = canvasElement.height / rect.height;
         return {
@@ -211,21 +246,32 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
+    /**
+     * Checks if a point is within a given region's coordinates.
+     * @param {Object} point - An object with x and y coordinates (mouse position).
+     * @param {Object} region - The region object with shape and coords properties.
+     * @returns {boolean} True if the point is in the region, false otherwise.
+     */
     function isPointInRegion(point, region) {
         if (region.shape === 'rect') {
             const [rx, ry, rwidth, rheight] = region.coords;
             return point.x >= rx && point.x <= rx + rwidth &&
                    point.y >= ry && point.y <= ry + rheight;
         }
+        // Future: Add support for other shapes like 'circle' if needed
         return false;
     }
 
+    /**
+     * Handles click events on the canvas.
+     * @param {MouseEvent} event - The click event.
+     */
     function handleClick(event) {
         const mousePos = getMousePos(canvas, event);
 
         for (const region of regions) {
             if (isPointInRegion(mousePos, region)) {
-                console.log(`Clicked on ${region.name}.`);
+                console.log(`Clicked on ${region.name}. Target URL: ${region.targetUrl}`);
 
                 // Clear any previous flash timeout and set up new flash
                 if (clickFlashTimeoutId) {
@@ -236,8 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 clickFlashTimeoutId = setTimeout(() => {
                     clickFlashRegion = null; // Clear the flash state
-                    // Redraw with current hover state (if any) after flash duration
-                    drawMapAndRegions(currentlyHoveredRegion);
+                    drawMapAndRegions(currentlyHoveredRegion); // Redraw to remove flash
                 }, CLICK_FLASH_DURATION);
 
                 // Process rewards
@@ -256,20 +301,24 @@ document.addEventListener('DOMContentLoaded', () => {
                     saveGameState();
                 }
 
-                // Navigate after flash and rewards
+                // Navigate to the target URL if it's defined
                 if (region.targetUrl) {
                     // Delay navigation slightly to allow flash to be visible
                     setTimeout(() => {
                         window.location.href = region.targetUrl;
-                    }, CLICK_FLASH_DURATION / 2); // Navigate halfway through flash or adjust as needed
+                    }, CLICK_FLASH_DURATION / 2);
                 }
-                return;
+                return; // Exit loop once a region is clicked and handled
             }
         }
     }
 
-    let currentlyHoveredRegion = null;
+    let currentlyHoveredRegion = null; // Stores the region object currently being hovered
 
+    /**
+     * Handles mouse move events on the canvas to show hover effects.
+     * @param {MouseEvent} event - The mouse move event.
+     */
     function handleMouseMove(event) {
         const mousePos = getMousePos(canvas, event);
         let foundRegionToHover = null;
@@ -282,7 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (foundRegionToHover) {
-            canvas.style.cursor = 'pointer';
+            canvas.style.cursor = 'pointer'; // Change cursor to pointer
             if (foundRegionToHover !== currentlyHoveredRegion) {
                 currentlyHoveredRegion = foundRegionToHover;
                 // Only redraw if not in the middle of a click flash for a *different* region
@@ -292,7 +341,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         } else {
-            canvas.style.cursor = 'default';
+            canvas.style.cursor = 'default'; // Change cursor back to default
             if (currentlyHoveredRegion !== null) {
                 currentlyHoveredRegion = null;
                 // Only redraw if not in the middle of a click flash
@@ -302,4 +351,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
+
+    // Initial load of game state.
+    // mapImage.onload will call loadGameState() and drawMapAndRegions() once the image is ready.
 });
