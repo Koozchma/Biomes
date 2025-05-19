@@ -231,13 +231,13 @@
             margin-bottom: 5px;
             line-height: 1.3;
         }
-        .building-card .cost, .building-card .production, .building-card .level {
+        .building-card .cost, .building-card .production, .building-card .quantity-display { /* Changed from level */
             font-weight: bold;
             font-size: 0.85em; 
         }
         .building-card .cost span { color: #B8860B; } 
         .building-card .production span { color: #228B22; } 
-        .building-card .level span { color: #483D8B; } 
+        .building-card .quantity-display span { color: #483D8B; } /* Changed from level */
 
 
         .action-buttons-container {
@@ -267,7 +267,7 @@
 
         .action-button.unlock { background-color: #CD853F; }
         .action-button.unlock:hover { background-color: #A0522D; }
-        .action-button.upgrade { background-color: #5cb85c; }
+        .action-button.upgrade { background-color: #5cb85c; } /* "Upgrade" class now means "Buy More" */
         .action-button.upgrade:hover { background-color: #4cae4c; }
         .action-button:disabled {
             background-color: #b0b0b0; 
@@ -352,39 +352,37 @@
             const buildingIconMap = {
                 mine_shaft: '⛏️', sluice_box: '🌊', ore_cart_rail: '🚂', stamping_mill: '⚙️',
                 refinery: '🔥', deep_mine: '💎', alchemists_lab: '🧪', treasury_vault: '💰',
-                gold_golem_foundry: '🤖', philosophers_stone: '✨'
+                gold_golem_foundry: '🤖' // Removed 10th building
             };
             
-            // Production sequence: 1, 1+3=4, 4+3=7, etc.
-            // baseCost is now the STATIC cost for UNLOCK and EACH UPGRADE LEVEL.
+            // Production sequence: 1, 1+3=4, 4+3=7, ..., 25 (for 9 buildings)
+            // baseCost is the STATIC cost for UNLOCK and EACH subsequent unit/quantity.
             const buildingTypes = [
                 { id: 'mine_shaft', name: "Prospector's Shaft", baseCost: 50,   baseProduction: 1,  iconKey: 'mine_shaft' },
-                { id: 'sluice_box', name: "Desert Sluice Box",    baseCost: 300,  baseProduction: 4,  iconKey: 'sluice_box' },
-                { id: 'ore_cart_rail', name: "Ore Cart Railway",  baseCost: 1500, baseProduction: 7,  iconKey: 'ore_cart_rail' },
-                { id: 'stamping_mill', name: "Gold Stamping Mill",baseCost: 7000, baseProduction: 10, iconKey: 'stamping_mill' },
-                { id: 'refinery', name: "Small Refinery",         baseCost: 30000,baseProduction: 13, iconKey: 'refinery' },
-                { id: 'deep_mine', name: "Deep Vein Mine",        baseCost: 120000,baseProduction:16, iconKey: 'deep_mine' },
-                { id: 'alchemists_lab', name: "Alchemist's Lab",  baseCost: 500000,baseProduction:19, iconKey: 'alchemists_lab' },
-                { id: 'treasury_vault', name: "Treasury Vault",   baseCost: 2000000,baseProduction:22,iconKey: 'treasury_vault' },
-                { id: 'gold_golem_foundry', name: "Gold Golem Foundry",baseCost: 8000000,baseProduction:25,iconKey: 'gold_golem_foundry' },
-                { id: 'philosophers_stone', name: "Philosopher's Stone Chamber", baseCost: 35000000,baseProduction:28,iconKey: 'philosophers_stone' }
+                { id: 'sluice_box', name: "Desert Sluice Box",    baseCost: 250,  baseProduction: 4,  iconKey: 'sluice_box' }, // Adjusted baseCost for balance
+                { id: 'ore_cart_rail', name: "Ore Cart Railway",  baseCost: 1200, baseProduction: 7,  iconKey: 'ore_cart_rail' },
+                { id: 'stamping_mill', name: "Gold Stamping Mill",baseCost: 5000, baseProduction: 10, iconKey: 'stamping_mill' },
+                { id: 'refinery', name: "Small Refinery",         baseCost: 20000,baseProduction: 13, iconKey: 'refinery' },
+                { id: 'deep_mine', name: "Deep Vein Mine",        baseCost: 80000,baseProduction:16, iconKey: 'deep_mine' },
+                { id: 'alchemists_lab', name: "Alchemist's Lab",  baseCost: 350000,baseProduction:19, iconKey: 'alchemists_lab' },
+                { id: 'treasury_vault', name: "Treasury Vault",   baseCost: 1500000,baseProduction:22,iconKey: 'treasury_vault' },
+                { id: 'gold_golem_foundry', name: "Gold Golem Foundry",baseCost: 6000000,baseProduction:25,iconKey: 'gold_golem_foundry' }
             ];
 
-            let buildingsState = JSON.parse(localStorage.getItem('pyramidBuildingsState_v7')) || 
+            let buildingsState = JSON.parse(localStorage.getItem('pyramidBuildingsState_v8')) || 
                                  buildingTypes.map(bt => ({ 
                                      ...bt, 
                                      unlocked: false, 
-                                     level: 0, 
+                                     quantity: 0, // Changed from level
                                      currentProduction: 0
-                                     // No need for staticUpgradeCost if it's always baseCost
                                  }));
             
-            let currentGold = parseInt(localStorage.getItem('playerGold_v6')) || 200; 
+            let currentGold = parseInt(localStorage.getItem('playerGold_v7')) || 200; 
             let gameLoopInterval = null;
 
             function saveState() {
-                localStorage.setItem('pyramidBuildingsState_v7', JSON.stringify(buildingsState));
-                localStorage.setItem('playerGold_v6', currentGold.toString());
+                localStorage.setItem('pyramidBuildingsState_v8', JSON.stringify(buildingsState));
+                localStorage.setItem('playerGold_v7', currentGold.toString());
             }
 
             function updateGoldDisplay() {
@@ -417,7 +415,7 @@
                 }
             }
             
-            // Cost for unlock or any upgrade level is always the building's baseCost
+            // Cost for unlock or any subsequent unit is always the building's baseCost
             function getCost(building) {
                 return building.baseCost; 
             }
@@ -442,17 +440,18 @@
                         card.classList.add('unlocked');
                     }
 
-                    let costToShow = getCost(building);
+                    let costToShow = getCost(building); // Cost is always baseCost
 
                     card.innerHTML = `
                         <div class="building-icon">${buildingIconMap[building.iconKey] || '🏛️'}</div>
                         <h3>${building.name}</h3>
-                        ${building.unlocked ? `<p class="level">Level: <span>${building.level}</span></p>` : '<p class="description">Unlocks gold extraction.</p>'}
-                        <p class="production">Produces: <span>${building.currentProduction.toLocaleString()}</span> Gold/sec</p>
-                        <p class="cost">${building.unlocked ? 'Upgrade Cost' : 'Unlock Cost'}: <span>${costToShow.toLocaleString()}</span> Gold</p>
+                        ${building.unlocked ? `<p class="quantity-display">Quantity: <span>${building.quantity}</span></p>` : '<p class="description">Unlocks gold extraction.</p>'}
+                        <p class="production">Produces: <span>${building.currentProduction.toLocaleString()}</span> Gold/sec (Total)</p>
+                        <p class="production">Per Unit: <span>${building.baseProduction.toLocaleString()}</span> Gold/sec</p>
+                        <p class="cost">${building.unlocked ? 'Buy More Cost' : 'Unlock Cost'}: <span>${costToShow.toLocaleString()}</span> Gold</p>
                         <div class="action-buttons-container">
                             <button class="action-button ${building.unlocked ? 'upgrade' : 'unlock'}" data-index="${index}" data-action="buy">
-                                ${building.unlocked ? `Upgrade (Lvl ${building.level + 1})` : 'Unlock Building'}
+                                ${building.unlocked ? `Buy Another (+1 Qty)` : 'Unlock Building'}
                             </button>
                             ${building.unlocked ? `<button class="action-button buy-max" data-index="${index}" data-action="max">Max</button>` : ''}
                         </div>
@@ -474,9 +473,11 @@
                          else if(maxButton) maxButton.style.display = 'none';
                     }
 
-
                     if (maxButton && !building.unlocked) { 
                         maxButton.style.display = 'none';
+                    }
+                    if (maxButton && building.unlocked && !canAffordSingle) { 
+                        maxButton.disabled = true;
                     }
                     
                     buildingsGridContainer.appendChild(card);
@@ -489,36 +490,32 @@
 
             function handlePurchase(index, isMaxPurchase = false) {
                 const building = buildingsState[index];
-                const costPerLevel = building.baseCost; // Static cost for unlock and each upgrade
+                const costPerUnit = building.baseCost; // Static cost for unlock and each unit
 
                 if (isMaxPurchase) {
-                    if (!building.unlocked) return; // Max only applies to unlocked buildings for upgrades
+                    if (!building.unlocked) return; // Max only applies to unlocked buildings to buy more quantity
 
-                    let levelsToBuy = 0;
-                    let tempGold = currentGold;
+                    let unitsToBuy = 0;
+                    if (costPerUnit > 0) { // Avoid division by zero if baseCost is somehow 0
+                        unitsToBuy = Math.floor(currentGold / costPerUnit);
+                    }
                     
-                    while (tempGold >= costPerLevel) {
-                        tempGold -= costPerLevel;
-                        levelsToBuy++;
-                        if (levelsToBuy > 500) break; // Safety break
-                    }
-
-                    if (levelsToBuy > 0) {
-                        currentGold -= (levelsToBuy * costPerLevel);
-                        building.level += levelsToBuy;
-                        building.currentProduction = building.baseProduction * building.level;
+                    if (unitsToBuy > 0) {
+                        currentGold -= (unitsToBuy * costPerUnit);
+                        building.quantity += unitsToBuy;
+                        building.currentProduction = building.baseProduction * building.quantity;
                     } else {
-                        return; // Can't afford even one level with max
+                        return; // Can't afford even one unit with max
                     }
 
-                } else { // Single purchase (unlock or upgrade)
-                    if (currentGold >= costPerLevel) {
-                        currentGold -= costPerLevel;
-                        building.level++;
+                } else { // Single purchase (unlock or buy one more unit)
+                    if (currentGold >= costPerUnit) {
+                        currentGold -= costPerUnit;
+                        building.quantity++;
                         if (!building.unlocked) { 
                             building.unlocked = true;
                         }
-                        building.currentProduction = building.baseProduction * building.level;
+                        building.currentProduction = building.baseProduction * building.quantity;
                     } else {
                         return; // Should be prevented by disabled button
                     }
@@ -547,13 +544,13 @@
 
             if (startProductionPageBtn && goldProductionMenu && closeGoldMenuBtn) {
                 startProductionPageBtn.addEventListener('click', () => {
-                    currentGold = parseInt(localStorage.getItem('playerGold_v6')) || 200; 
-                    const storedBuildingState = localStorage.getItem('pyramidBuildingsState_v7');
+                    currentGold = parseInt(localStorage.getItem('playerGold_v7')) || 200; 
+                    const storedBuildingState = localStorage.getItem('pyramidBuildingsState_v8');
                     if (storedBuildingState) {
                         buildingsState = JSON.parse(storedBuildingState);
                     } else { 
                          buildingsState = buildingTypes.map(bt => ({ 
-                             ...bt, unlocked: false, level: 0, 
+                             ...bt, unlocked: false, quantity: 0, 
                              currentProduction: 0
                             }));
                          saveState(); 
