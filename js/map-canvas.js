@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: 'Desert',
             shape: 'rect',
             coords: [30, 30, 450, 300], // Original coordinates
-            targetUrl: 'regions/desert.html',
+            targetUrl: 'regions/desert.png',
             hoverColor: 'rgba(255, 193, 7, 0.4)',
             rewards: { coin: 5 }
         },
@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: 'Forest',
             shape: 'rect',
             coords: [600, 50, 350, 400], // Original coordinates
-            targetUrl: 'regions/forest.html',
+            targetUrl: 'regions/forest.png',
             hoverColor: 'rgba(76, 175, 80, 0.4)',
             rewards: { wood: 15, fish: 1 }
         },
@@ -109,14 +109,14 @@ document.addEventListener('DOMContentLoaded', () => {
             name: 'Castle',
             shape: 'rect',
             coords: [150, 700, 250, 200], // Original coordinates
-            targetUrl: 'regions/castle.html',
+            targetUrl: 'regions/castle.png',
             hoverColor: 'rgba(121, 85, 72, 0.4)'
         },
         {
             name: 'Mountains',
             shape: 'rect',
             coords: [550, 600, 350, 250], // Original coordinates
-            targetUrl: 'regions/mountains.html',
+            targetUrl: 'regions/mountains.png',
             hoverColor: 'rgba(158, 158, 158, 0.4)',
             rewards: { stone: 20, coin: 2 }
         },
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: 'Lake',
             shape: 'rect',
             coords: [30, 500, 300, 200], // Original coordinates
-            targetUrl: 'regions/lake.html',
+            targetUrl: 'regions/lake.png',
             hoverColor: 'rgba(33, 150, 243, 0.4)',
             rewards: { fish: 3 }
         },
@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: 'DirtIsland',
             shape: 'rect',
             coords: [430, 500, 200, 200], // Original coordinates
-            targetUrl: 'regions/lake.html', // Or a specific island page
+            targetUrl: 'regions/lake.png', // Or a specific island page
             hoverColor: 'rgba(188, 143, 143, 0.4)', // Example: RosyBrown
             rewards: { stone: 2 }
         },
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: 'ForestIsland',
             shape: 'rect',
             coords: [250, 400, 200, 150], // Original coordinates
-            targetUrl: 'regions/lake.html', // Or a specific island page
+            targetUrl: 'regions/lake.png', // Or a specific island page
             hoverColor: 'rgba(60, 179, 113, 0.4)', // Example: MediumSeaGreen
             rewards: { wood: 5 }
         }
