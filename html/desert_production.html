@@ -358,15 +358,15 @@
             // Production sequence: 1, 1+3=4, 4+3=7, ..., 25 (for 9 buildings)
             // baseCost is the STATIC cost for UNLOCK and EACH subsequent unit/quantity.
             const buildingTypes = [
-                { id: 'mine_shaft', name: "Prospector's Shaft", baseCost: 50,   baseProduction: 1,  iconKey: 'mine_shaft' },
-                { id: 'sluice_box', name: "Desert Sluice Box",    baseCost: 250,  baseProduction: 4,  iconKey: 'sluice_box' }, // Adjusted baseCost for balance
-                { id: 'ore_cart_rail', name: "Ore Cart Railway",  baseCost: 1200, baseProduction: 7,  iconKey: 'ore_cart_rail' },
-                { id: 'stamping_mill', name: "Gold Stamping Mill",baseCost: 5000, baseProduction: 10, iconKey: 'stamping_mill' },
-                { id: 'refinery', name: "Small Refinery",         baseCost: 20000,baseProduction: 13, iconKey: 'refinery' },
-                { id: 'deep_mine', name: "Deep Vein Mine",        baseCost: 80000,baseProduction:16, iconKey: 'deep_mine' },
-                { id: 'alchemists_lab', name: "Alchemist's Lab",  baseCost: 350000,baseProduction:19, iconKey: 'alchemists_lab' },
-                { id: 'treasury_vault', name: "Treasury Vault",   baseCost: 1500000,baseProduction:22,iconKey: 'treasury_vault' },
-                { id: 'gold_golem_foundry', name: "Gold Golem Foundry",baseCost: 6000000,baseProduction:25,iconKey: 'gold_golem_foundry' }
+                { id: 'mine_shaft, name: "Prospector's Shaft", baseCost: 100,   baseProduction: 1,  iconKey: 'mine_shaft'}',
+                { id: 'sluice_box, name: "Desert Sluice Box", baseCost: 300,   baseProduction: 4.5,  iconKey: 'sluice_box'}',
+                { id: 'ore_cart_rail, name: "Ore Cart Railway", baseCost: 900,   baseProduction: 18,  iconKey: 'ore_cart_rail'}',
+                { id: 'stamping_mill, name: "Gold Stamping Mill", baseCost: 2700,   baseProduction: 67.5,  iconKey: 'stamping_mill'}',
+                { id: 'refinery, name: "Small Refinery", baseCost: 8100,   baseProduction: 243,  iconKey: 'refinery'}',
+                { id: 'deep_mine, name: "Deep Vein Mine", baseCost: 24300,   baseProduction: 850.5,  iconKey: 'deep_mine'}',
+                { id: 'alchemists_lab, name: "Alchemist's Lab", baseCost: 72900,   baseProduction: 2916,  iconKey: 'alchemists_lab'}',
+                { id: 'treasury_vault, name: "Treasury Vault", baseCost: 218700,   baseProduction: 9841.5,  iconKey: 'treasury_vault'}',
+                { id: 'gold_golem_foundry, name: "Gold Golem Foundry", baseCost: 656100,   baseProduction: 32805,  iconKey: 'gold_golem_foundry'}'    
             ];
 
             let buildingsState = JSON.parse(localStorage.getItem('pyramidBuildingsState_v8')) || 
