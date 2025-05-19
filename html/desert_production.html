@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desert Pyramid - Gold Production</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial Rounded MT Bold', 'Helvetica Rounded', Arial, sans-serif;
+            background-color: #e4d8c5;
+            color: #5a4c3d;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .desert-container {
+            position: relative;
+            max-width: 800px;
+            width: 90%;
+            background-color: #fff;
+            border: 3px solid #a98e60;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+            padding: 15px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .desert-image-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .desert-image-wrapper img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .pyramid-animation-circle {
+            position: absolute;
+            left: 25%; /* Adjust based on your desert.png */
+            top: 30%;  /* Adjust based on your desert.png */
+            width: 40px;
+            height: 40px;
+            border: 3px solid red;
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0.7;
+            animation: pulse 2s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
+        }
+
+        .start-production-button {
+            position: absolute;
+            left: 25%; 
+            top: 35%;  
+            transform: translate(-50%, -50%); 
+            padding: 12px 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: white;
+            background-color: #4CAF50; /* Green */
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            z-index: 10; 
+        }
+        .start-production-button:hover { background-color: #45a049; }
+        .start-production-button:active { transform: translate(-50%, -50%) scale(0.95); }
+
+        /* Gold Production Menu Modal */
+        .gold-production-menu {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1000; 
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; 
+            background-color: rgba(0,0,0,0.6); 
+            justify-content: center;
+            align-items: center;
+        }
+
+        .gold-production-menu-content {
+            position: relative;
+            background-color: #f4e9c0; 
+            background-image: url('../images/regions/desert/pyramid_valley.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            padding: 20px;
+            border: 4px solid #b8860b; 
+            width: 95%;
+            max-width: 850px; 
+            height: 90vh; 
+            max-height: 750px; 
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            color: #3a2b1a; 
+            display: flex;
+            flex-direction: column; 
+        }
+        
+        .gold-production-menu-content::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(244, 233, 192, 0.8); 
+            border-radius: 16px; 
+            z-index: 1; 
+        }
+
+        .menu-header, .menu-body, .menu-footer {
+            position: relative; 
+            z-index: 2;
+        }
+
+        .menu-header {
+            text-align: center;
+            padding-bottom: 10px; 
+            border-bottom: 2px dashed #b8860b;
+            position: relative; 
+        }
+
+        .menu-header h2 {
+            color: #8B4513; 
+            margin-top: 0;
+            margin-bottom: 5px; 
+            font-size: 1.8em; 
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        .player-gold-display, .total-gold-production {
+            font-size: 1.0em; 
+            font-weight: bold;
+            padding: 6px 10px; 
+            background-color: rgba(255, 215, 0, 0.3); 
+            border-radius: 5px;
+            display: inline-block; 
+            margin: 3px 8px; 
+        }
+        .player-gold-display span, .total-gold-production span { color: #DAA520; }
+
+
+        .close-gold-menu-button {
+            position: absolute;
+            top: 8px; 
+            right: 12px; 
+            color: #8B4513;
+            font-size: 32px; 
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s;
+            z-index: 3; 
+        }
+        .close-gold-menu-button:hover { color: #5a2d0c; }
+
+        .menu-body {
+            flex-grow: 1; 
+            overflow-y: auto; 
+            padding: 10px 5px; 
+        }
+
+        .buildings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); 
+            gap: 15px; 
+        }
+
+        .building-card {
+            background-color: rgba(255, 253, 240, 0.92); 
+            border: 2px solid #b8860b; 
+            border-radius: 10px;
+            padding: 12px; 
+            text-align: center;
+            box-shadow: 0 3px 7px rgba(0,0,0,0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; 
+        }
+        .building-card:hover {
+            transform: translateY(-4px); 
+            box-shadow: 0 5px 10px rgba(0,0,0,0.25);
+        }
+        .building-card.locked {
+            opacity: 0.65; 
+            background-color: rgba(210, 210, 210, 0.75); 
+        }
+
+
+        .building-icon {
+            font-size: 2.2em; 
+            margin-bottom: 8px;
+            color: #8B4513;
+            height: 35px; 
+            line-height: 35px;
+        }
+
+        .building-card h3 {
+            margin-top: 0;
+            margin-bottom: 6px;
+            color: #800000; 
+            font-size: 1.05em; 
+        }
+        .building-card p {
+            font-size: 0.8em; 
+            margin-bottom: 5px;
+            line-height: 1.3;
+        }
+        .building-card .cost, .building-card .production, .building-card .level {
+            font-weight: bold;
+            font-size: 0.85em; 
+        }
+        .building-card .cost span { color: #B8860B; } 
+        .building-card .production span { color: #228B22; } 
+        .building-card .level span { color: #483D8B; } 
+
+
+        .action-buttons-container {
+            display: flex;
+            gap: 5px; /* Space between buy and max buttons */
+            margin-top: 10px;
+        }
+
+        .action-button { 
+            padding: 8px 10px; 
+            font-size: 0.85em; 
+            font-weight: bold;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s, opacity 0.2s;
+            box-sizing: border-box;
+            flex-grow: 1; 
+        }
+        .action-button.buy-max {
+            flex-grow: 0.5; 
+            background-color: #FF8C00; /* DarkOrange for Max */
+        }
+        .action-button.buy-max:hover { background-color: #cc7000; }
+
+
+        .action-button.unlock { background-color: #CD853F; }
+        .action-button.unlock:hover { background-color: #A0522D; }
+        .action-button.upgrade { background-color: #5cb85c; }
+        .action-button.upgrade:hover { background-color: #4cae4c; }
+        .action-button:disabled {
+            background-color: #b0b0b0; 
+            color: #f0f0f0;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .back-to-map-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #8c734d;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+        .back-to-map-link:hover { background-color: #705c3e; }
+
+        .gold-income-indicator {
+            position: absolute;
+            top: 60px; 
+            left: 35%; 
+            transform: translateX(-50%);
+            font-size: 1.2em; 
+            font-weight: bold;
+            color: #FFD700; 
+            text-shadow: 0 0 5px black, 0 0 10px gold;
+            padding: 5px 10px;
+            opacity: 0;
+            animation: floatAndFade 1s ease-out forwards;
+            pointer-events: none;
+            z-index: 1001; 
+        }
+
+        @keyframes floatAndFade {
+            0% { opacity: 1; transform: translateX(-50%) translateY(0) scale(0.8); }
+            50% { transform: translateX(-50%) translateY(-20px) scale(1.1); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(-40px) scale(0.7); }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="desert-container">
+        <h1>Pyramid of the Ancients</h1>
+        <div class="desert-image-wrapper">
+            <img src="../images/regions/desert.png" alt="Desert Scene with Pyramid"
+                 onerror="this.onerror=null; this.src='https://placehold.co/600x400/F4A460/FFFFFF?text=Desert+Image+Missing'; this.alt='Desert image missing';">
+            <div class="pyramid-animation-circle"></div>
+            <button id="startProductionPageBtn" class="start-production-button">Start Production</button>
+        </div>
+        <a href="../index.html" class="back-to-map-link">Back to World Map</a>
+    </div>
+
+    <div id="goldProductionMenu" class="gold-production-menu">
+        <div class="gold-production-menu-content">
+            <div class="menu-header">
+                <span class="close-gold-menu-button" id="closeGoldMenuBtn">&times;</span>
+                <h2>Pyramid Gold Works</h2>
+                <div class="player-gold-display">Player Gold: <span id="playerGoldValue">0</span></div>
+                <div class="total-gold-production">Total Gold/sec: <span id="totalGoldProductionValue">0</span></div>
+            </div>
+            <div class="menu-body">
+                <div class="buildings-grid" id="buildingsGridContainer">
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const startProductionPageBtn = document.getElementById('startProductionPageBtn');
+            const goldProductionMenu = document.getElementById('goldProductionMenu');
+            const closeGoldMenuBtn = document.getElementById('closeGoldMenuBtn');
+            const buildingsGridContainer = document.getElementById('buildingsGridContainer');
+            const totalGoldProductionValueEl = document.getElementById('totalGoldProductionValue');
+            const playerGoldValueEl = document.getElementById('playerGoldValue');
+            const menuHeaderEl = document.querySelector('.menu-header');
+
+            const buildingIconMap = {
+                mine_shaft: '⛏️', sluice_box: '🌊', ore_cart_rail: '🚂', stamping_mill: '⚙️',
+                refinery: '🔥', deep_mine: '💎', alchemists_lab: '🧪', treasury_vault: '💰',
+                gold_golem_foundry: '🤖', philosophers_stone: '✨'
+            };
+            
+            // Production sequence: 1, 1+3=4, 4+3=7, etc.
+            // baseCost is now the STATIC cost for UNLOCK and EACH UPGRADE LEVEL.
+            const buildingTypes = [
+                { id: 'mine_shaft', name: "Prospector's Shaft", baseCost: 50,   baseProduction: 1,  iconKey: 'mine_shaft' },
+                { id: 'sluice_box', name: "Desert Sluice Box",    baseCost: 300,  baseProduction: 4,  iconKey: 'sluice_box' },
+                { id: 'ore_cart_rail', name: "Ore Cart Railway",  baseCost: 1500, baseProduction: 7,  iconKey: 'ore_cart_rail' },
+                { id: 'stamping_mill', name: "Gold Stamping Mill",baseCost: 7000, baseProduction: 10, iconKey: 'stamping_mill' },
+                { id: 'refinery', name: "Small Refinery",         baseCost: 30000,baseProduction: 13, iconKey: 'refinery' },
+                { id: 'deep_mine', name: "Deep Vein Mine",        baseCost: 120000,baseProduction:16, iconKey: 'deep_mine' },
+                { id: 'alchemists_lab', name: "Alchemist's Lab",  baseCost: 500000,baseProduction:19, iconKey: 'alchemists_lab' },
+                { id: 'treasury_vault', name: "Treasury Vault",   baseCost: 2000000,baseProduction:22,iconKey: 'treasury_vault' },
+                { id: 'gold_golem_foundry', name: "Gold Golem Foundry",baseCost: 8000000,baseProduction:25,iconKey: 'gold_golem_foundry' },
+                { id: 'philosophers_stone', name: "Philosopher's Stone Chamber", baseCost: 35000000,baseProduction:28,iconKey: 'philosophers_stone' }
+            ];
+
+            let buildingsState = JSON.parse(localStorage.getItem('pyramidBuildingsState_v7')) || 
+                                 buildingTypes.map(bt => ({ 
+                                     ...bt, 
+                                     unlocked: false, 
+                                     level: 0, 
+                                     currentProduction: 0
+                                     // No need for staticUpgradeCost if it's always baseCost
+                                 }));
+            
+            let currentGold = parseInt(localStorage.getItem('playerGold_v6')) || 200; 
+            let gameLoopInterval = null;
+
+            function saveState() {
+                localStorage.setItem('pyramidBuildingsState_v7', JSON.stringify(buildingsState));
+                localStorage.setItem('playerGold_v6', currentGold.toString());
+            }
+
+            function updateGoldDisplay() {
+                playerGoldValueEl.textContent = Math.floor(currentGold).toLocaleString();
+            }
+
+            function calculateTotalGPS() {
+                return buildingsState.reduce((total, building) => {
+                    return total + (building.unlocked ? building.currentProduction : 0);
+                }, 0);
+            }
+
+            function showGoldIncomeAnimation(amount) {
+                if (!menuHeaderEl || amount <= 0) return;
+                const incomeText = document.createElement('div');
+                incomeText.classList.add('gold-income-indicator');
+                incomeText.textContent = `+${amount.toLocaleString()} 💰`;
+                menuHeaderEl.appendChild(incomeText);
+                setTimeout(() => {
+                    incomeText.remove();
+                }, 950); 
+            }
+
+            function gameTick() {
+                const goldEarnedThisSecond = calculateTotalGPS();
+                if (goldEarnedThisSecond > 0) {
+                    currentGold += goldEarnedThisSecond;
+                    updateGoldDisplay();
+                    showGoldIncomeAnimation(goldEarnedThisSecond);
+                }
+            }
+            
+            // Cost for unlock or any upgrade level is always the building's baseCost
+            function getCost(building) {
+                return building.baseCost; 
+            }
+
+            function renderBuildings() {
+                buildingsGridContainer.innerHTML = ''; 
+                updateGoldDisplay();
+                totalGoldProductionValueEl.textContent = calculateTotalGPS().toLocaleString();
+                
+                let previousBuildingUnlocked = true; 
+
+                buildingsState.forEach((building, index) => {
+                    const card = document.createElement('div');
+                    card.classList.add('building-card');
+                    
+                    const isSequentiallyUnlockable = previousBuildingUnlocked || building.unlocked;
+
+                    if (!isSequentiallyUnlockable && !building.unlocked) {
+                        card.classList.add('locked');
+                    }
+                    if (building.unlocked) {
+                        card.classList.add('unlocked');
+                    }
+
+                    let costToShow = getCost(building);
+
+                    card.innerHTML = `
+                        <div class="building-icon">${buildingIconMap[building.iconKey] || '🏛️'}</div>
+                        <h3>${building.name}</h3>
+                        ${building.unlocked ? `<p class="level">Level: <span>${building.level}</span></p>` : '<p class="description">Unlocks gold extraction.</p>'}
+                        <p class="production">Produces: <span>${building.currentProduction.toLocaleString()}</span> Gold/sec</p>
+                        <p class="cost">${building.unlocked ? 'Upgrade Cost' : 'Unlock Cost'}: <span>${costToShow.toLocaleString()}</span> Gold</p>
+                        <div class="action-buttons-container">
+                            <button class="action-button ${building.unlocked ? 'upgrade' : 'unlock'}" data-index="${index}" data-action="buy">
+                                ${building.unlocked ? `Upgrade (Lvl ${building.level + 1})` : 'Unlock Building'}
+                            </button>
+                            ${building.unlocked ? `<button class="action-button buy-max" data-index="${index}" data-action="max">Max</button>` : ''}
+                        </div>
+                    `;
+                    
+                    const actionButton = card.querySelector('.action-button[data-action="buy"]');
+                    const maxButton = card.querySelector('.action-button[data-action="max"]');
+                    
+                    let canAffordSingle = currentGold >= costToShow;
+
+                    if (!isSequentiallyUnlockable && !building.unlocked) {
+                        actionButton.disabled = true;
+                        actionButton.title = "Unlock previous building first.";
+                        if(maxButton) maxButton.style.display = 'none'; 
+                    } else if (!canAffordSingle) { 
+                         actionButton.disabled = true;
+                         actionButton.title = `Not enough gold. Need ${costToShow.toLocaleString()}.`;
+                         if(maxButton && building.unlocked) maxButton.disabled = true; 
+                         else if(maxButton) maxButton.style.display = 'none';
+                    }
+
+
+                    if (maxButton && !building.unlocked) { 
+                        maxButton.style.display = 'none';
+                    }
+                    
+                    buildingsGridContainer.appendChild(card);
+                    if (!building.unlocked) {
+                        previousBuildingUnlocked = false; 
+                    }
+                });
+                addBuildingActionListeners();
+            }
+
+            function handlePurchase(index, isMaxPurchase = false) {
+                const building = buildingsState[index];
+                const costPerLevel = building.baseCost; // Static cost for unlock and each upgrade
+
+                if (isMaxPurchase) {
+                    if (!building.unlocked) return; // Max only applies to unlocked buildings for upgrades
+
+                    let levelsToBuy = 0;
+                    let tempGold = currentGold;
+                    
+                    while (tempGold >= costPerLevel) {
+                        tempGold -= costPerLevel;
+                        levelsToBuy++;
+                        if (levelsToBuy > 500) break; // Safety break
+                    }
+
+                    if (levelsToBuy > 0) {
+                        currentGold -= (levelsToBuy * costPerLevel);
+                        building.level += levelsToBuy;
+                        building.currentProduction = building.baseProduction * building.level;
+                    } else {
+                        return; // Can't afford even one level with max
+                    }
+
+                } else { // Single purchase (unlock or upgrade)
+                    if (currentGold >= costPerLevel) {
+                        currentGold -= costPerLevel;
+                        building.level++;
+                        if (!building.unlocked) { 
+                            building.unlocked = true;
+                        }
+                        building.currentProduction = building.baseProduction * building.level;
+                    } else {
+                        return; // Should be prevented by disabled button
+                    }
+                }
+                saveState();
+                renderBuildings();
+            }
+            
+            function addBuildingActionListeners() {
+                const buttons = document.querySelectorAll('.action-button');
+                buttons.forEach(button => {
+                    if (button.listenerAttached) return; 
+                    button.listenerAttached = true;
+                    button.addEventListener('click', (e) => {
+                        if (e.target.disabled) return;
+                        const index = parseInt(e.target.dataset.index);
+                        const action = e.target.dataset.action;
+                        if (action === "buy") {
+                            handlePurchase(index, false);
+                        } else if (action === "max") {
+                            handlePurchase(index, true);
+                        }
+                    });
+                });
+            }
+
+            if (startProductionPageBtn && goldProductionMenu && closeGoldMenuBtn) {
+                startProductionPageBtn.addEventListener('click', () => {
+                    currentGold = parseInt(localStorage.getItem('playerGold_v6')) || 200; 
+                    const storedBuildingState = localStorage.getItem('pyramidBuildingsState_v7');
+                    if (storedBuildingState) {
+                        buildingsState = JSON.parse(storedBuildingState);
+                    } else { 
+                         buildingsState = buildingTypes.map(bt => ({ 
+                             ...bt, unlocked: false, level: 0, 
+                             currentProduction: 0
+                            }));
+                         saveState(); 
+                    }
+                    renderBuildings(); 
+                    goldProductionMenu.style.display = 'flex';
+                    document.body.style.overflow = 'hidden'; 
+                    if (!gameLoopInterval) {
+                        gameLoopInterval = setInterval(gameTick, 1000); 
+                    }
+                });
+                
+                const closeMenuActions = () => {
+                    goldProductionMenu.style.display = 'none';
+                    document.body.style.overflow = 'auto'; 
+                    if (gameLoopInterval) {
+                        clearInterval(gameLoopInterval);
+                        gameLoopInterval = null;
+                    }
+                    saveState(); 
+                };
+
+                closeGoldMenuBtn.addEventListener('click', closeMenuActions);
+                window.addEventListener('click', (event) => {
+                    if (event.target === goldProductionMenu) {
+                        closeMenuActions();
+                    }
+                });
+            } else {
+                console.error('Modal control buttons not found.');
+            }
+        });
+    </script>
+</body>
+</html>
