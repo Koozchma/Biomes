@@ -5,9 +5,9 @@ body, html {
     font-family: 'Arial Rounded MT Bold', 'Helvetica Rounded', Arial, sans-serif;
     background-color: #e4d8c5; /* Sandy beige background */
     color: #5a4c3d; /* Dark brown text */
-    min-height: 100%; /* Changed from height to min-height for flexibility */
-    display: flex; /* Added to help center game-container if needed */
-    justify-content: center; /* Added to help center game-container */
+    min-height: 100vh; /* Use min-height to ensure footer stays down */
+    display: flex;
+    flex-direction: column; /* Allows footer to be pushed down */
 }
 
 .game-container {
@@ -16,23 +16,24 @@ body, html {
     align-items: center;
     width: 100%;
     max-width: 960px; /* Max width for the game content */
-    min-height: 100vh; /* Ensure it takes at least the full viewport height */
-    padding: 10px; /* Padding around the game container */
+    margin: 0 auto; /* Center the container */
+    padding: 10px;
     box-sizing: border-box;
+    flex-grow: 1; /* Allows this container to grow and push footer down */
 }
 
 /* Top Bar for Resources and Day Counter */
 .top-bar {
     width: 100%;
     background-color: #d7c095; /* Lighter, slightly desaturated brown */
-    padding: 10px 20px; /* Increased padding */
-    border-radius: 12px; /* Slightly more rounded corners */
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); /* Softer shadow */
+    padding: 10px 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 15px;
-    margin-bottom: 20px; /* More space below top bar */
+    margin-bottom: 20px;
     box-sizing: border-box;
     border: 2px solid #a98e60; /* Darker border for definition */
 }
@@ -40,59 +41,62 @@ body, html {
 .resources {
     display: flex;
     align-items: center;
-    gap: 20px; /* Increased gap */
+    gap: 15px; /* Reduced gap slightly */
+    flex-wrap: wrap; /* Allow resources to wrap on smaller screens */
 }
 
 .resource-item {
     display: flex;
     align-items: center;
     background-color: #f5eeda; /* Creamy off-white */
-    padding: 6px 12px; /* Adjusted padding */
+    padding: 6px 12px;
     border-radius: 25px; /* Pill shape */
-    border: 1px solid #c8b58c; /* Softer border */
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(255,255,255,0.3); /* Subtle inner and outer shadow */
+    border: 1px solid #c8b58c;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(255,255,255,0.3);
 }
 
 .resource-icon {
-    width: 28px; /* Slightly larger icons */
+    width: 28px;
     height: 28px;
-    margin-right: 10px; /* More space next to icon */
+    margin-right: 10px;
     vertical-align: middle;
 }
 
 .resource-value {
-    font-size: 1.15em; /* Slightly larger text */
+    font-size: 1.15em;
     font-weight: bold;
-    color: #6d573b; /* Darker brown for resource values */
+    color: #6d573b;
 }
 
 .day-counter {
-    font-size: 1.25em; /* Larger day counter text */
+    font-size: 1.25em;
     font-weight: bold;
-    color: #fff; /* White text */
+    color: #fff;
     background-color: #8c734d; /* Earthy brown */
-    padding: 8px 15px; /* More padding */
-    border-radius: 8px; /* Rounded corners */
-    border: 1px solid #705c3e; /* Darker border */
+    padding: 8px 15px;
+    border-radius: 8px;
+    border: 1px solid #705c3e;
     box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    white-space: nowrap; /* Prevent "Day X" from wrapping */
 }
 
 /* Map Area Styling */
 .map-area {
     width: 100%;
     margin-bottom: 20px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25); /* More pronounced shadow */
-    border: 3px solid #a98e60; /* Consistent border */
-    border-radius: 8px; /* Rounded corners for the map area */
-    overflow: hidden; /* Ensures canvas corners are clipped if canvas is not styled with border-radius */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+    border: 3px solid #a98e60;
+    border-radius: 8px;
+    overflow: hidden;
     background-color: #c7bba6; /* Fallback color if canvas/image doesn't load */
 }
 
 #gameMapCanvas {
     display: block; /* Removes extra space below canvas */
     width: 100%;  /* Canvas will scale with the .map-area container */
-    height: auto; /* Maintain aspect ratio */
-    /* border-radius: 5px; If you want the canvas itself to have rounded corners, matching .map-area's (minus border) */
+    height: auto; /* Maintain aspect ratio based on width */
+    /* If you want explicit rounded corners on the canvas image itself: */
+    /* border-radius: 5px; */
 }
 
 /* Footer */
@@ -100,53 +104,36 @@ footer {
     width: 100%;
     text-align: center;
     padding: 15px 0;
-    margin-top: auto; /* Pushes footer to the bottom if content is short */
+    margin-top: auto; /* Pushes footer to the bottom */
     font-size: 0.9em;
-    color: #7a6c5d; /* Softer color for footer text */
+    color: #7a6c5d;
+    background-color: #d7c095; /* Match top-bar for consistency */
+    box-sizing: border-box;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .top-bar {
         flex-direction: column;
-        gap: 15px; /* Increased gap for column layout */
+        gap: 15px;
         padding: 15px;
-        margin-top: 10px;
-        margin-bottom: 15px;
     }
     .resources {
-        gap: 12px; /* Adjusted gap for wrapped items */
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    .resource-item {
-        padding: 5px 10px;
-    }
-    .resource-icon {
-        width: 24px;
-        height: 24px;
-        margin-right: 8px;
-    }
-    .resource-value {
-        font-size: 1.1em;
-    }
-    .day-counter {
-        font-size: 1.15em;
-        padding: 7px 12px;
+        justify-content: center; /* Center resources when wrapped */
+        gap: 10px;
     }
 }
 
 @media (max-width: 480px) {
     .resources {
         gap: 8px;
-        /* On very small screens, you might want resources to stack or be smaller */
     }
     .resource-item {
-        padding: 4px 8px;
+        padding: 5px 8px; /* Slightly smaller padding */
     }
     .resource-icon {
-        width: 20px;
-        height: 20px;
+        width: 24px;
+        height: 24px;
         margin-right: 6px;
     }
     .resource-value {
@@ -154,13 +141,14 @@ footer {
     }
     .day-counter {
         font-size: 1.1em;
-        padding: 6px 10px;
+        padding: 7px 12px;
+    }
+    .game-container {
+        padding: 5px;
     }
     .top-bar {
         padding: 10px;
-        border-radius: 10px;
-    }
-    .map-area {
-        border-radius: 6px;
+        margin-top: 10px;
+        margin-bottom: 15px;
     }
 }
