@@ -96,7 +96,7 @@
             top: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden; /* Prevent body scroll when modal is open */
+            overflow: hidden; 
             background-color: rgba(0,0,0,0.6); 
             justify-content: center;
             align-items: center;
@@ -105,21 +105,21 @@
         .gold-production-menu-content {
             position: relative;
             background-color: #f4e9c0; 
-            background-image: url('../images/regions/desert/pyramid_valley.png'); /* Corrected path assuming html and images are siblings */
+            background-image: url('../images/regions/desert/pyramid_valley.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             padding: 20px;
-            border: 4px solid #b8860b; /* Darker golden border */
+            border: 4px solid #b8860b; 
             width: 95%;
             max-width: 800px; 
-            height: 90vh; /* Use viewport height */
+            height: 90vh; 
             max-height: 700px;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             color: #3a2b1a; 
             display: flex;
-            flex-direction: column; /* Allow header, content, footer stacking */
+            flex-direction: column; 
         }
         
         .gold-production-menu-content::before {
@@ -129,13 +129,13 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(244, 233, 192, 0.75); /* Slightly more opaque overlay */
+            background-color: rgba(244, 233, 192, 0.75); 
             border-radius: 16px; 
             z-index: 1; 
         }
 
         .menu-header, .menu-body, .menu-footer {
-            position: relative; /* To ensure content is above the ::before pseudo-element */
+            position: relative; 
             z-index: 2;
         }
 
@@ -143,6 +143,7 @@
             text-align: center;
             padding-bottom: 15px;
             border-bottom: 2px dashed #b8860b;
+            position: relative; /* For gold income animation positioning */
         }
 
         .menu-header h2 {
@@ -158,7 +159,7 @@
             padding: 8px;
             background-color: rgba(255, 215, 0, 0.3); 
             border-radius: 5px;
-            display: inline-block; /* Or block with margin auto for centering */
+            display: inline-block; 
             margin: 5px 10px;
         }
         .player-gold-display span, .total-gold-production span { color: #DAA520; }
@@ -173,14 +174,14 @@
             font-weight: bold;
             cursor: pointer;
             transition: color 0.2s;
-            z-index: 3; /* Above other header content */
+            z-index: 3; 
         }
         .close-gold-menu-button:hover { color: #5a2d0c; }
 
         .menu-body {
-            flex-grow: 1; /* Takes available space */
-            overflow-y: auto; /* Scroll for building grid */
-            padding: 15px 5px; /* Padding for scrollbar */
+            flex-grow: 1; 
+            overflow-y: auto; 
+            padding: 15px 5px; 
         }
 
         .buildings-grid {
@@ -190,7 +191,7 @@
         }
 
         .building-card {
-            background-color: rgba(255, 253, 240, 0.9); /* Ivory, slightly transparent */
+            background-color: rgba(255, 253, 240, 0.9); 
             border: 2px solid #b8860b; 
             border-radius: 10px;
             padding: 15px;
@@ -199,7 +200,7 @@
             transition: transform 0.2s ease, box-shadow 0.2s ease;
             display: flex;
             flex-direction: column;
-            justify-content: space-between; /* Distributes space for button at bottom */
+            justify-content: space-between; 
         }
         .building-card:hover {
             transform: translateY(-5px);
@@ -207,14 +208,16 @@
         }
         .building-card.locked {
             opacity: 0.7;
-            background-color: rgba(220, 220, 220, 0.7); /* Greyer when locked by sequence */
+            background-color: rgba(220, 220, 220, 0.7); 
         }
 
 
         .building-icon {
-            font-size: 2.5em; /* Placeholder for icons */
+            font-size: 2.5em; 
             margin-bottom: 10px;
             color: #8B4513;
+            height: 40px; /* Ensure consistent height for icon area */
+            line-height: 40px;
         }
 
         .building-card h3 {
@@ -234,10 +237,10 @@
         }
         .building-card .cost span { color: #B8860B; } 
         .building-card .production span { color: #228B22; } 
-        .building-card .level span { color: #483D8B; } /* DarkSlateBlue */
+        .building-card .level span { color: #483D8B; } 
 
 
-        .action-button { /* Combined class for unlock/upgrade */
+        .action-button { 
             padding: 10px 18px;
             font-size: 0.95em;
             font-weight: bold;
@@ -247,15 +250,15 @@
             cursor: pointer;
             transition: background-color 0.2s, opacity 0.2s;
             margin-top: 12px;
-            width: 100%; /* Make button take full card width */
+            width: 100%; 
             box-sizing: border-box;
         }
-        .action-button.unlock { background-color: #CD853F; /* Peru */ }
+        .action-button.unlock { background-color: #CD853F; }
         .action-button.unlock:hover { background-color: #A0522D; }
-        .action-button.upgrade { background-color: #5cb85c; /* Green */ }
+        .action-button.upgrade { background-color: #5cb85c; }
         .action-button.upgrade:hover { background-color: #4cae4c; }
         .action-button:disabled {
-            background-color: #b0b0b0; /* Lighter grey for disabled */
+            background-color: #b0b0b0; 
             color: #f0f0f0;
             cursor: not-allowed;
             opacity: 0.7;
@@ -272,6 +275,29 @@
             font-size: 0.9em;
         }
         .back-to-map-link:hover { background-color: #705c3e; }
+
+        /* Gold income animation */
+        .gold-income-animation {
+            position: absolute;
+            left: 50%; /* Centered on the header */
+            top: 20px; /* Adjust as needed, below title */
+            transform: translateX(-50%);
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #DAA520; /* Gold color */
+            padding: 5px 10px;
+            background-color: rgba(0,0,0,0.5);
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            pointer-events: none; /* So it doesn't interfere with clicks */
+            z-index: 100;
+        }
+        .gold-income-animation.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-20px); /* Move up */
+        }
+
 
     </style>
 </head>
@@ -293,13 +319,13 @@
                 <span class="close-gold-menu-button" id="closeGoldMenuBtn">&times;</span>
                 <h2>Pyramid Gold Works</h2>
                 <div class="player-gold-display">Player Gold: <span id="playerGoldValue">0</span></div>
-                <div class="total-gold-production">Total Gold Per Cycle: <span id="totalGoldProductionValue">0</span></div>
+                <div class="total-gold-production">Total Gold/sec: <span id="totalGoldProductionValue">0</span></div>
             </div>
             <div class="menu-body">
                 <div class="buildings-grid" id="buildingsGridContainer">
                     </div>
             </div>
-            </div>
+        </div>
     </div>
 
     <script>
@@ -310,70 +336,104 @@
             const buildingsGridContainer = document.getElementById('buildingsGridContainer');
             const totalGoldProductionValueEl = document.getElementById('totalGoldProductionValue');
             const playerGoldValueEl = document.getElementById('playerGoldValue');
+            const menuHeaderEl = document.querySelector('.menu-header');
 
+
+            // Using direct emojis for better rendering
             const buildingIconMap = {
-                mine_shaft: "&#⛏️;", // Pickaxe emoji or SVG/FontAwesome
-                sluice_box: "&#🌊;", // Water wave
-                ore_cart_rail: "&#🚂;", // Locomotive/cart
-                stamping_mill: "&#⚙️;", // Gear
-                refinery: "&#🔥;", // Fire/Flask
-                deep_mine: "&#💎;", // Gem stone
-                alchemists_lab: "&#🧪;", // Test tube
-                treasury_vault: "&#💰;", // Money bag
-                gold_golem_foundry: "&#🤖;", // Robot face
-                philosophers_stone: "&#✨;" // Sparkles
+                mine_shaft: '⛏️',
+                sluice_box: '🌊',
+                ore_cart_rail: '🚂',
+                stamping_mill: '⚙️',
+                refinery: '🔥',
+                deep_mine: '💎',
+                alchemists_lab: '🧪',
+                treasury_vault: '💰',
+                gold_golem_foundry: '🤖',
+                philosophers_stone: '✨'
             };
             
+            // Adjusted baseProduction for "per second" and overall reduction
+            // Adjusted multipliers for a slightly slower progression
             const buildingTypes = [
-                // { id, name, baseCost, costMultiplier, baseProduction, productionMultiplier, iconKey }
-                { id: 'mine_shaft', name: "Prospector's Shaft", baseCost: 50, costMultiplier: 1.5, baseProduction: 1, productionMultiplier: 1.3, iconKey: 'mine_shaft' },
-                { id: 'sluice_box', name: "Desert Sluice Box", baseCost: 250, costMultiplier: 1.6, baseProduction: 5, productionMultiplier: 1.4, iconKey: 'sluice_box' },
-                { id: 'ore_cart_rail', name: "Ore Cart Railway", baseCost: 1200, costMultiplier: 1.7, baseProduction: 20, productionMultiplier: 1.5, iconKey: 'ore_cart_rail' },
-                { id: 'stamping_mill', name: "Gold Stamping Mill", baseCost: 6000, costMultiplier: 1.8, baseProduction: 75, productionMultiplier: 1.6, iconKey: 'stamping_mill' },
-                { id: 'refinery', name: "Small Refinery", baseCost: 25000, costMultiplier: 1.9, baseProduction: 250, productionMultiplier: 1.7, iconKey: 'refinery' },
-                { id: 'deep_mine', name: "Deep Vein Mine", baseCost: 120000, costMultiplier: 2.0, baseProduction: 1000, productionMultiplier: 1.8, iconKey: 'deep_mine' },
-                { id: 'alchemists_lab', name: "Alchemist's Lab", baseCost: 600000, costMultiplier: 2.1, baseProduction: 4000, productionMultiplier: 1.9, iconKey: 'alchemists_lab' },
-                { id: 'treasury_vault', name: "Treasury Vault", baseCost: 3000000, costMultiplier: 2.2, baseProduction: 15000, productionMultiplier: 2.0, iconKey: 'treasury_vault' },
-                { id: 'gold_golem_foundry', name: "Gold Golem Foundry", baseCost: 15000000, costMultiplier: 2.3, baseProduction: 60000, productionMultiplier: 2.1, iconKey: 'gold_golem_foundry' },
-                { id: 'philosophers_stone', name: "Philosopher's Stone Chamber", baseCost: 75000000, costMultiplier: 2.5, baseProduction: 250000, productionMultiplier: 2.2, iconKey: 'philosophers_stone' }
+                { id: 'mine_shaft', name: "Prospector's Shaft", baseCost: 50, costMultiplier: 1.6, baseProduction: 1, productionMultiplier: 1.4, iconKey: 'mine_shaft' },
+                { id: 'sluice_box', name: "Desert Sluice Box", baseCost: 200, costMultiplier: 1.7, baseProduction: 2, productionMultiplier: 1.5, iconKey: 'sluice_box' },
+                { id: 'ore_cart_rail', name: "Ore Cart Railway", baseCost: 1000, costMultiplier: 1.8, baseProduction: 5, productionMultiplier: 1.6, iconKey: 'ore_cart_rail' },
+                { id: 'stamping_mill', name: "Gold Stamping Mill", baseCost: 4500, costMultiplier: 1.9, baseProduction: 12, productionMultiplier: 1.7, iconKey: 'stamping_mill' },
+                { id: 'refinery', name: "Small Refinery", baseCost: 20000, costMultiplier: 2.0, baseProduction: 30, productionMultiplier: 1.8, iconKey: 'refinery' },
+                { id: 'deep_mine', name: "Deep Vein Mine", baseCost: 90000, costMultiplier: 2.1, baseProduction: 70, productionMultiplier: 1.9, iconKey: 'deep_mine' },
+                { id: 'alchemists_lab', name: "Alchemist's Lab", baseCost: 400000, costMultiplier: 2.2, baseProduction: 150, productionMultiplier: 2.0, iconKey: 'alchemists_lab' },
+                { id: 'treasury_vault', name: "Treasury Vault", baseCost: 1800000, costMultiplier: 2.3, baseProduction: 350, productionMultiplier: 2.1, iconKey: 'treasury_vault' },
+                { id: 'gold_golem_foundry', name: "Gold Golem Foundry", baseCost: 8000000, costMultiplier: 2.4, baseProduction: 800, productionMultiplier: 2.2, iconKey: 'gold_golem_foundry' },
+                { id: 'philosophers_stone', name: "Philosopher's Stone Chamber", baseCost: 35000000, costMultiplier: 2.6, baseProduction: 2000, productionMultiplier: 2.3, iconKey: 'philosophers_stone' }
             ];
 
-            let buildingsState = JSON.parse(localStorage.getItem('pyramidBuildingsState_v2')) || 
+            let buildingsState = JSON.parse(localStorage.getItem('pyramidBuildingsState_v3')) || 
                                  buildingTypes.map(bt => ({ ...bt, unlocked: false, level: 0, currentCost: bt.baseCost, currentProduction: 0 }));
             
-            let currentGold = parseInt(localStorage.getItem('playerGold')) || 200; 
+            let currentGold = parseInt(localStorage.getItem('playerGold_v2')) || 200; 
+            let gameLoopInterval = null;
 
             function saveState() {
-                localStorage.setItem('pyramidBuildingsState_v2', JSON.stringify(buildingsState));
-                localStorage.setItem('playerGold', currentGold.toString());
+                localStorage.setItem('pyramidBuildingsState_v3', JSON.stringify(buildingsState));
+                localStorage.setItem('playerGold_v2', currentGold.toString());
             }
 
             function updateGoldDisplay() {
-                playerGoldValueEl.textContent = currentGold.toLocaleString();
+                playerGoldValueEl.textContent = Math.floor(currentGold).toLocaleString();
             }
 
-            function calculateTotalProduction() {
+            function calculateTotalGPS() { // GPS: Gold Per Second
                 return buildingsState.reduce((total, building) => {
                     return total + (building.unlocked ? building.currentProduction : 0);
                 }, 0);
             }
 
+            function showGoldIncomeAnimation(amount) {
+                if (!menuHeaderEl || amount <= 0) return;
+
+                const incomeText = document.createElement('div');
+                incomeText.classList.add('gold-income-animation');
+                incomeText.textContent = `+${amount.toLocaleString()} Gold`;
+                
+                menuHeaderEl.appendChild(incomeText);
+
+                // Trigger animation
+                requestAnimationFrame(() => {
+                    incomeText.classList.add('show');
+                });
+
+                // Remove after animation
+                setTimeout(() => {
+                    incomeText.remove();
+                }, 500); // Matches transition duration
+            }
+
+
+            function gameTick() {
+                const goldEarnedThisSecond = calculateTotalGPS();
+                if (goldEarnedThisSecond > 0) {
+                    currentGold += goldEarnedThisSecond;
+                    updateGoldDisplay();
+                    showGoldIncomeAnimation(goldEarnedThisSecond);
+                    saveState(); // Save gold every second if it changes
+                }
+            }
+
             function renderBuildings() {
                 buildingsGridContainer.innerHTML = ''; 
                 updateGoldDisplay();
-                totalGoldProductionValueEl.textContent = calculateTotalProduction().toLocaleString();
+                totalGoldProductionValueEl.textContent = calculateTotalGPS().toLocaleString();
                 
-                let previousBuildingFullyUnlocked = true; // First building is always potentially unlockable
+                let previousBuildingFullyUnlocked = true; 
 
                 buildingsState.forEach((building, index) => {
                     const card = document.createElement('div');
                     card.classList.add('building-card');
                     
-                    const canAffordUnlock = currentGold >= building.currentCost && !building.unlocked;
-                    const canAffordUpgrade = currentGold >= building.currentCost && building.unlocked;
                     const isSequentiallyUnlockable = previousBuildingFullyUnlocked || building.unlocked;
 
-                    if (!isSequentiallyUnlockable) {
+                    if (!isSequentiallyUnlockable && !building.unlocked) {
                         card.classList.add('locked');
                     }
                     if (building.unlocked) {
@@ -384,7 +444,7 @@
                         <div class="building-icon">${buildingIconMap[building.iconKey] || '🏛️'}</div>
                         <h3>${building.name}</h3>
                         ${building.unlocked ? `<p class="level">Level: <span>${building.level}</span></p>` : '<p class="description">Unlocks ancient gold extraction.</p>'}
-                        <p class="production">Produces: <span>${building.currentProduction.toLocaleString()}</span> Gold/cycle</p>
+                        <p class="production">Produces: <span>${building.currentProduction.toLocaleString()}</span> Gold/sec</p>
                         <p class="cost">${building.unlocked ? 'Upgrade Cost' : 'Unlock Cost'}: <span>${building.currentCost.toLocaleString()}</span> Gold</p>
                         <button class="action-button ${building.unlocked ? 'upgrade' : 'unlock'}" data-index="${index}">
                             ${building.unlocked ? `Upgrade to Lvl ${building.level + 1}` : 'Unlock Building'}
@@ -392,17 +452,15 @@
                     `;
                     
                     const actionButton = card.querySelector('.action-button');
+                    let canAfford = currentGold >= building.currentCost;
+
                     if (!isSequentiallyUnlockable && !building.unlocked) {
                         actionButton.disabled = true;
                         actionButton.title = "Unlock previous building first.";
-                    } else if (building.unlocked && currentGold < building.currentCost) {
+                    } else if (!canAfford) {
                          actionButton.disabled = true;
-                         actionButton.title = "Not enough gold to upgrade.";
-                    } else if (!building.unlocked && currentGold < building.currentCost) {
-                         actionButton.disabled = true;
-                         actionButton.title = "Not enough gold to unlock.";
+                         actionButton.title = `Not enough gold. Need ${building.currentCost.toLocaleString()}.`;
                     }
-
 
                     buildingsGridContainer.appendChild(card);
                     if (!building.unlocked) {
@@ -415,10 +473,12 @@
             function addBuildingActionListeners() {
                 const buttons = document.querySelectorAll('.action-button');
                 buttons.forEach(button => {
-                    if (button.listenerAttached) return; // Prevent multiple listeners
+                    if (button.listenerAttached) return; 
                     button.listenerAttached = true;
 
                     button.addEventListener('click', (e) => {
+                        if (e.target.disabled) return; // Prevent action if button is disabled
+
                         const index = parseInt(e.target.dataset.index);
                         const building = buildingsState[index];
                         const isUpgrade = building.unlocked;
@@ -426,19 +486,24 @@
                         if (currentGold >= building.currentCost) {
                             currentGold -= building.currentCost;
                             building.level++;
-                            if (!isUpgrade) { // First time unlock
+                            if (!isUpgrade) { 
                                 building.unlocked = true;
                                 building.currentProduction = building.baseProduction;
-                                console.log(`Unlocked ${building.name}.`);
-                            } else { // Upgrade
-                                building.currentProduction = Math.floor(building.currentProduction * building.productionMultiplier);
-                                console.log(`Upgraded ${building.name} to level ${building.level}.`);
+                            } else { 
+                                // Ensure baseProduction is used for the first level's production value
+                                // and subsequent upgrades multiply from the previous level's actual production.
+                                if (building.level === 1) { // Should not happen if already unlocked, but as a safeguard
+                                     building.currentProduction = building.baseProduction;
+                                } else {
+                                     building.currentProduction = Math.floor(building.currentProduction * building.productionMultiplier);
+                                }
                             }
-                            building.currentCost = Math.floor(building.currentCost * building.costMultiplier);
+                            building.currentCost = Math.floor(building.baseCost * Math.pow(building.costMultiplier, building.level)); // Cost scales from baseCost based on level
                             
                             saveState();
                             renderBuildings();
                         } else {
+                            // This case should ideally be prevented by disabling the button, but as a fallback:
                             alert(`Not enough gold for this action.`);
                         }
                     });
@@ -447,30 +512,41 @@
 
             if (startProductionPageBtn && goldProductionMenu && closeGoldMenuBtn) {
                 startProductionPageBtn.addEventListener('click', () => {
-                    currentGold = parseInt(localStorage.getItem('playerGold')) || 200; 
-                    // Load the latest state in case it was changed elsewhere (e.g. main game)
-                    const storedBuildingState = localStorage.getItem('pyramidBuildingsState_v2');
+                    currentGold = parseInt(localStorage.getItem('playerGold_v2')) || 200; 
+                    const storedBuildingState = localStorage.getItem('pyramidBuildingsState_v3');
                     if (storedBuildingState) {
                         buildingsState = JSON.parse(storedBuildingState);
-                    } else { // Initialize if no saved state
+                    } else { 
                          buildingsState = buildingTypes.map(bt => ({ ...bt, unlocked: false, level: 0, currentCost: bt.baseCost, currentProduction: 0 }));
+                         saveState(); // Save initial state if new
                     }
                     renderBuildings(); 
                     goldProductionMenu.style.display = 'flex';
-                    document.body.style.overflow = 'hidden'; // Prevent background scroll
+                    document.body.style.overflow = 'hidden'; 
+                    if (!gameLoopInterval) {
+                        gameLoopInterval = setInterval(gameTick, 1000); // Start game loop (1 second interval)
+                    }
                 });
                 closeGoldMenuBtn.addEventListener('click', () => {
                     goldProductionMenu.style.display = 'none';
-                    document.body.style.overflow = 'auto'; // Restore background scroll
+                    document.body.style.overflow = 'auto'; 
+                    if (gameLoopInterval) {
+                        clearInterval(gameLoopInterval);
+                        gameLoopInterval = null;
+                    }
                 });
                 window.addEventListener('click', (event) => {
                     if (event.target === goldProductionMenu) {
                         goldProductionMenu.style.display = 'none';
-                        document.body.style.overflow = 'auto'; // Restore background scroll
+                        document.body.style.overflow = 'auto'; 
+                        if (gameLoopInterval) {
+                            clearInterval(gameLoopInterval);
+                            gameLoopInterval = null;
+                        }
                     }
                 });
             } else {
-                console.error('Modal control buttons not found. Check IDs: startProductionPageBtn, goldProductionMenu, closeGoldMenuBtn.');
+                console.error('Modal control buttons not found. Check IDs.');
             }
         });
     </script>
